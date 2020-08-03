@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobblePOC", "DobblePOC\DobblePOC.csproj", "{E38468BE-A100-41FA-BDB7-4BFAC2AF8AC6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{879F7F11-544D-4F97-BDE7-7A739EC4BBF9} = {879F7F11-544D-4F97-BDE7-7A739EC4BBF9}
+		{0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B} = {0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalR", "SignalR\SignalR.csproj", "{0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DobbleCardsGame", "DobbleGameCards\DobbleCardsGame.csproj", "{879F7F11-544D-4F97-BDE7-7A739EC4BBF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DobbleGameCardsTests", "DobbleGameCardsTests\DobbleGameCardsTests.csproj", "{C6553FC0-E4E4-4497-9244-3B4B92BBBAF0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{879F7F11-544D-4F97-BDE7-7A739EC4BBF9} = {879F7F11-544D-4F97-BDE7-7A739EC4BBF9}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E38468BE-A100-41FA-BDB7-4BFAC2AF8AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E38468BE-A100-41FA-BDB7-4BFAC2AF8AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E38468BE-A100-41FA-BDB7-4BFAC2AF8AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E38468BE-A100-41FA-BDB7-4BFAC2AF8AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DF59CF4-6659-4F5E-ABCA-ADD64B6D971B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{879F7F11-544D-4F97-BDE7-7A739EC4BBF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{879F7F11-544D-4F97-BDE7-7A739EC4BBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{879F7F11-544D-4F97-BDE7-7A739EC4BBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{879F7F11-544D-4F97-BDE7-7A739EC4BBF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6553FC0-E4E4-4497-9244-3B4B92BBBAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6553FC0-E4E4-4497-9244-3B4B92BBBAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6553FC0-E4E4-4497-9244-3B4B92BBBAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6553FC0-E4E4-4497-9244-3B4B92BBBAF0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F102F05B-8B9D-4A36-8B6D-A12E62811D3A}
+	EndGlobalSection
+EndGlobal
