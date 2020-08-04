@@ -1,18 +1,38 @@
 ﻿function CallbackTouch(data) {
     console.log("CallbackTouch");
     if (data.answerStatus === 1) {
-        CentraleCardGuid = data.cardGuid;
-        console.log("CallbackTouch ok new card guid : " + CentraleCardGuid);
-        SendTouch();
+        if (data.gameFinish === true) {
+            SendGameFinished(PlayerPseudo);
+        }
+        else {
+            ChangePlayerCard();
+            SendTouchCard(data.centerCard);
+        }
     }
     else if (data.answerStatus === 2) {
         console.log("Wrong value touched");
+        ShowPlayerCard();
     }
     else {
         console.log("To Late");
+        alert("trop tard !");
+        ShowPlayerCard();
     }
 }
 
-function CallbackGetGuidCentralCard(guid) {
-    CentraleCardGuid = guid;
+function CallbackGetCenterCard(data) {
+    CenterCard = data;
+}
+
+function CallbackGetNewPlayerGuid(guid) {
+    PlayerGuid = guid;
+}
+
+function CallbackStartGame() {
+    SendStartGame();
+}
+
+function CallbackGetCards(data) {
+    PlayerCards = data;
+    ShowCards();
 }

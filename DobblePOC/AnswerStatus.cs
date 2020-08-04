@@ -5,5 +5,6 @@
         Ok = 1,
         WrongValueTouch,
         ToLate,
+        CardPlayedDontExist,
     }
 }

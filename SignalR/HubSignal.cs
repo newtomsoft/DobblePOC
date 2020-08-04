@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DobbleCardsGameLib;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,11 @@ namespace SignalR.Hubs
         //    await Clients.Group(playerId.ToString()).SendAsync("ReceivePlayersInGame", GameGuid_PlayersId[playerId].ToHashSet());
         //}
 
-        public async Task SendTouch(int playerId) => await Clients.All.SendAsync("TouchReceive", playerId);
+        public async Task SendStartGame() => await Clients.All.SendAsync("StartGameReceive");
+
+        public async Task SendTouchCard(string playerPseudo, object centerCard) => await Clients.All.SendAsync("TouchCardReceive", playerPseudo, centerCard);
+
+        public async Task SendGameFinished(string playerPseudo) => await Clients.All.SendAsync("GameFinishedReceive", playerPseudo);
 
     }
 }

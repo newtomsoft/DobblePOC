@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DobbleCardsGameLib
 {
     public class DobbleCardsGame
     {
-        private int ValuesInCardNumber { get; }
-        public List<DobbleCard> DobbleCards { get; }
+        private readonly int _valuesPerCardNumber;
+        public List<DobbleCard> Cards { get; private set; }
 
-        public DobbleCardsGame(int valuesInCardNumber)
+        public DobbleCardsGame(int valuesPerCardNumber)
         {
-            ValuesInCardNumber = valuesInCardNumber;
-            DobbleCards = GenerateAllCards(valuesInCardNumber);
+            _valuesPerCardNumber = valuesPerCardNumber;
+            GetAllCardsShuffled();
         }
+  
+
+        private void GetAllCardsShuffled() => Cards = GenerateAllCards(_valuesPerCardNumber).OrderBy(_ => Guid.NewGuid()).ToList();
 
         private List<DobbleCard> GenerateAllCards(int valuesNumber) => GenerateCardsWithSameFirstValue(valuesNumber, valuesNumber - 1);
 
@@ -69,19 +74,19 @@ namespace DobbleCardsGameLib
         {
             const string separator = "   ";
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < DobbleCards.Count - ValuesInCardNumber; i++)
+            for (int i = 0; i < Cards.Count - _valuesPerCardNumber; i++)
             {
-                stringBuilder.Append(DobbleCards[i].ToString());
-                if ((i + 1) % (ValuesInCardNumber - 1) == 0)
+                stringBuilder.Append(Cards[i].ToString());
+                if ((i + 1) % (_valuesPerCardNumber - 1) == 0)
                     stringBuilder.Append("\n");
                 else
                     stringBuilder.Append(separator);
             }
             stringBuilder.Remove(stringBuilder.Length - "\n".Length, "\n".Length);
             stringBuilder.Append("\n");
-            for (int i = DobbleCards.Count - ValuesInCardNumber; i < DobbleCards.Count; i++)
+            for (int i = Cards.Count - _valuesPerCardNumber; i < Cards.Count; i++)
             {
-                stringBuilder.Append(DobbleCards[i].ToString());
+                stringBuilder.Append(Cards[i].ToString());
                 stringBuilder.Append(separator);
             }
             return stringBuilder.ToString();

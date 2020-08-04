@@ -11,7 +11,7 @@ namespace DobbleGameTest
         public void Have_all_values_in_each_card_present_in_each_other_card_only_1_time_when_03_values()
         {
             int valuesNumber = 3;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertAllValuesInEachCardPresentInEachOtherOnly1time(valuesNumber, DobbleCards);
         }
 
@@ -19,7 +19,7 @@ namespace DobbleGameTest
         public void Have_all_values_in_each_card_present_in_each_other_card_only_1_time_when_04_values()
         {
             int valuesNumber = 4;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertAllValuesInEachCardPresentInEachOtherOnly1time(valuesNumber, DobbleCards);
         }
 
@@ -27,7 +27,7 @@ namespace DobbleGameTest
         public void Have_all_values_in_each_card_present_in_each_other_card_only_1_time_when_06_values()
         {
             int valuesNumber = 6;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertAllValuesInEachCardPresentInEachOtherOnly1time(valuesNumber, DobbleCards);
         }
 
@@ -35,7 +35,7 @@ namespace DobbleGameTest
         public void Have_all_values_in_each_card_present_in_each_other_card_only_1_time_when_08_values()
         {
             int valuesNumber = 8;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertAllValuesInEachCardPresentInEachOtherOnly1time(valuesNumber, DobbleCards);
         }
 
@@ -43,7 +43,7 @@ namespace DobbleGameTest
         public void Have_all_values_in_each_card_present_in_each_other_card_only_1_time_when_12_values()
         {
             int valuesNumber = 12;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertAllValuesInEachCardPresentInEachOtherOnly1time(valuesNumber, DobbleCards);
         }
 
@@ -51,7 +51,7 @@ namespace DobbleGameTest
         public void Have_all_values_in_each_card_present_in_each_other_card_only_1_time_when_14_values()
         {
             int valuesNumber = 14;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertAllValuesInEachCardPresentInEachOtherOnly1time(valuesNumber, DobbleCards);
         }
 
@@ -60,7 +60,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 3;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -69,7 +69,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 4;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -78,7 +78,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 6;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -87,7 +87,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 8;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -96,7 +96,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 12;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -105,7 +105,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 14;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -114,7 +114,7 @@ namespace DobbleGameTest
         {
             int valuesNumber = 98;
             int expected = valuesNumber * valuesNumber - valuesNumber + 1;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             Assert.Equal(expected, DobbleCards.Count);
         }
 
@@ -185,7 +185,7 @@ namespace DobbleGameTest
         public void Generate_unique_pair_values_when_values_number_03()
         {
             int valuesNumber = 3;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertPairValue(valuesNumber, DobbleCards);
         }
 
@@ -193,7 +193,7 @@ namespace DobbleGameTest
         public void Generate_unique_pair_values_when_values_number_04()
         {
             int valuesNumber = 4;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertPairValue(valuesNumber, DobbleCards);
         }
 
@@ -201,7 +201,7 @@ namespace DobbleGameTest
         public void Generate_unique_pair_values_when_values_number_06()
         {
             int valuesNumber = 6;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertPairValue(valuesNumber, DobbleCards);
         }
 
@@ -209,7 +209,7 @@ namespace DobbleGameTest
         public void Generate_unique_pair_values_when_values_number_08()
         {
             int valuesNumber = 8;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertPairValue(valuesNumber, DobbleCards);
         }
 
@@ -217,7 +217,7 @@ namespace DobbleGameTest
         public void Generate_unique_pair_values_when_values_number_12()
         {
             int valuesNumber = 12;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertPairValue(valuesNumber, DobbleCards);
         }
 
@@ -225,7 +225,7 @@ namespace DobbleGameTest
         public void Generate_unique_pair_values_when_values_number_14()
         {
             int valuesNumber = 14;
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
             AssertPairValue(valuesNumber, DobbleCards);
         }
 
@@ -480,7 +480,7 @@ namespace DobbleGameTest
         {
             int CardsNumberExpected = valuesNumber * valuesNumber - valuesNumber + 1;
 
-            var DobbleCards = new DobbleCardsGame(valuesNumber).DobbleCards;
+            var DobbleCards = new DobbleCardsGame(valuesNumber).Cards;
 
             Dictionary<int, int> presence = new Dictionary<int, int>();
             for (int i = 0; i < CardsNumberExpected; i++)

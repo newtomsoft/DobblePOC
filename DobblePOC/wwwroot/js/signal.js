@@ -7,7 +7,15 @@ function CallSignalR() {
             return console.error(err.toString());
         });
 
-    ConnectionHubGame.on("TouchReceive", function (playerId) {
-        console.log("receive playerId : " + playerId)
+    ConnectionHubGame.on("StartGameReceive", function () {
+        StartGameReceive();
+    });
+
+    ConnectionHubGame.on("TouchCardReceive", function (playerPseudo, centerCard) {
+        TouchCardReceive(playerPseudo, centerCard);
+    });
+
+    ConnectionHubGame.on("GameFinishedReceive", function (playerPseudo) {
+        GameFinishedReceive(playerPseudo);
     });
 }
