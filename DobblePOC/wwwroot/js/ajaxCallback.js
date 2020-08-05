@@ -5,20 +5,23 @@
 }
 
 function CallbackTouch(data) {
-    if (data.answerStatus === 1) {
+    if (data.answerStatus === 1) { // status ok
         if (data.gameFinish === true) {
             SendGameFinished(Pseudo);
         }
         else {
+            PictureClickSubscribe();
             ChangePlayerCard();
             SendTouchCard(data.centerCard);
         }
     }
-    else if (data.answerStatus === 2) {
-        ShowPlayerCard();
-    }
+    //else if (data.answerStatus === 2) { //status wrong picture
+    //    let delayInMilliseconds = 2000;
+    //    setTimeout(function () { PictureClickSubscribe(); }, delayInMilliseconds);
+    //}
     else {
-        ShowPlayerCard();
+        let delayInMilliseconds = 2000;
+        setTimeout(function () { PictureClickSubscribe(); }, delayInMilliseconds);
     }
 }
 
@@ -28,7 +31,8 @@ function CallbackGetCenterCard(data) {
 
 function CallbackAddNewPlayer(data) {
     PlayerGuid = data.playerGuid;
-    PicturesNumber = data.picturesNumber;
+    PicturesNumberPerCard = data.picturesNumber;
+    LoadAllCardPictures();
 }
 
 function CallbackStartGame(centerCard) {
@@ -37,6 +41,5 @@ function CallbackStartGame(centerCard) {
 
 function CallbackGetCards(data) {
     PlayerCards = data;
-    InitCardPictures();
     ShowCards();
 }

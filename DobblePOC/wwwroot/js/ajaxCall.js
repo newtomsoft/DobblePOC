@@ -10,7 +10,7 @@ function JoinGame(mode) {
     $.ajax({
         url: '/Game/Join',
         type: 'POST',
-        data: { gameId: GameId, picturesNumber: PicturesNumber },
+        data: { gameId: GameId, picturesNumber: PicturesNumberPerCard },
         success: function () { CallbackJoinGame(); },
     });
 }
@@ -28,19 +28,9 @@ function StartGame() {
     $.ajax({
         url: '/Game/Start',
         type: 'POST',
-        data: { gameId: GameId, picturesNumber: PicturesNumber },
+        data: { gameId: GameId, picturesNumber: PicturesNumberPerCard },
         success: function (centerCard) { CallbackStartGame(centerCard); },
     });
-}
-
-function TouchCard(valueTouch) {
-    $.ajax({
-        url: '/Game/Touch',
-        type: 'POST',
-        data: { gameId: GameId, playerGuid: PlayerGuid, cardPlayed: PlayerCards[0], valueTouch: valueTouch, centerCard: CenterCard/*, timeTakenToTouch: 500*/ },
-        success: function (data) { CallbackTouch(data); },
-    });
-    HidePlayerCard();
 }
 
 function GetCenterCard(card) {
@@ -59,5 +49,15 @@ function GetCards() {
         url: '/Game/GetCardsPlayer',
         data: { gameId: GameId, playerGuid: PlayerGuid },
         success: function (data) { CallbackGetCards(data); },
+    });
+}
+
+function TouchCard(valueTouch) {
+    PictureClickUnsubscribe();
+    $.ajax({
+        url: '/Game/Touch',
+        type: 'POST',
+        data: { gameId: GameId, playerGuid: PlayerGuid, cardPlayed: PlayerCards[0], valueTouch: valueTouch, centerCard: CenterCard/*, timeTakenToTouch: 500*/ },
+        success: function (data) { CallbackTouch(data); },
     });
 }

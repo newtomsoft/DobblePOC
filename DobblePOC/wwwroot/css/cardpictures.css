@@ -1,0 +1,496 @@
+﻿.img-picture {
+    flex-shrink: 1;
+    height: 69px;
+    width: 69px;
+    margin: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: center;
+    background-color:white;
+}
+
+.cursor-default {
+    cursor: default !important;
+}
+
+.img-0 {
+    background-image: url('/Pictures/CardPictures/0.svg');
+}
+
+.img-1 {
+    background-image: url('/Pictures/CardPictures/1.svg');
+}
+
+.img-2 {
+    background-image: url('/Pictures/CardPictures/2.svg');
+}
+
+.img-3 {
+    background-image: url('/Pictures/CardPictures/3.svg');
+}
+
+.img-4 {
+    background-image: url('/Pictures/CardPictures/4.svg');
+}
+
+.img-5 {
+    background-image: url('/Pictures/CardPictures/5.svg');
+}
+
+.img-6 {
+    background-image: url('/Pictures/CardPictures/6.svg');
+}
+
+.img-7 {
+    background-image: url('/Pictures/CardPictures/7.svg');
+}
+
+.img-8 {
+    background-image: url('/Pictures/CardPictures/8.svg');
+}
+
+.img-9 {
+    background-image: url('/Pictures/CardPictures/9.svg');
+}
+
+
+.img-10 {
+    background-image: url('/Pictures/CardPictures/10.svg');
+}
+
+.img-11 {
+    background-image: url('/Pictures/CardPictures/11.svg');
+}
+
+.img-12 {
+    background-image: url('/Pictures/CardPictures/12.svg');
+}
+
+.img-13 {
+    background-image: url('/Pictures/CardPictures/13.svg');
+}
+
+.img-14 {
+    background-image: url('/Pictures/CardPictures/14.svg');
+}
+
+.img-15 {
+    background-image: url('/Pictures/CardPictures/15.svg');
+}
+
+.img-16 {
+    background-image: url('/Pictures/CardPictures/16.svg');
+}
+
+.img-17 {
+    background-image: url('/Pictures/CardPictures/17.svg');
+}
+
+.img-18 {
+    background-image: url('/Pictures/CardPictures/18.svg');
+}
+
+.img-19 {
+    background-image: url('/Pictures/CardPictures/19.svg');
+}
+
+.img-20 {
+    background-image: url('/Pictures/CardPictures/20.svg');
+}
+
+.img-21 {
+    background-image: url('/Pictures/CardPictures/21.svg');
+}
+
+.img-22 {
+    background-image: url('/Pictures/CardPictures/22.svg');
+}
+
+.img-23 {
+    background-image: url('/Pictures/CardPictures/23.svg');
+}
+
+.img-24 {
+    background-image: url('/Pictures/CardPictures/24.svg');
+}
+
+.img-25 {
+    background-image: url('/Pictures/CardPictures/25.svg');
+}
+
+.img-26 {
+    background-image: url('/Pictures/CardPictures/26.svg');
+}
+
+.img-27 {
+    background-image: url('/Pictures/CardPictures/27.svg');
+}
+
+.img-28 {
+    background-image: url('/Pictures/CardPictures/28.svg');
+}
+
+.img-29 {
+    background-image: url('/Pictures/CardPictures/29.svg');
+}
+
+.img-30 {
+    background-image: url('/Pictures/CardPictures/30.svg');
+}
+
+.img-31 {
+    background-image: url('/Pictures/CardPictures/31.svg');
+}
+
+.img-32 {
+    background-image: url('/Pictures/CardPictures/32.svg');
+}
+
+.img-33 {
+    background-image: url('/Pictures/CardPictures/33.svg');
+}
+
+.img-34 {
+    background-image: url('/Pictures/CardPictures/34.svg');
+}
+
+.img-35 {
+    background-image: url('/Pictures/CardPictures/35.svg');
+}
+
+.img-36 {
+    background-image: url('/Pictures/CardPictures/36.svg');
+}
+
+.img-37 {
+    background-image: url('/Pictures/CardPictures/37.svg');
+}
+
+.img-38 {
+    background-image: url('/Pictures/CardPictures/38.svg');
+}
+
+.img-39 {
+    background-image: url('/Pictures/CardPictures/39.svg');
+}
+
+.img-40 {
+    background-image: url('/Pictures/CardPictures/40.svg');
+}
+
+.img-41 {
+    background-image: url('/Pictures/CardPictures/41.svg');
+}
+
+.img-42 {
+    background-image: url('/Pictures/CardPictures/42.svg');
+}
+
+.img-43 {
+    background-image: url('/Pictures/CardPictures/43.svg');
+}
+
+.img-44 {
+    background-image: url('/Pictures/CardPictures/44.svg');
+}
+
+.img-45 {
+    background-image: url('/Pictures/CardPictures/45.svg');
+}
+
+.img-46 {
+    background-image: url('/Pictures/CardPictures/46.svg');
+}
+
+.img-47 {
+    background-image: url('/Pictures/CardPictures/47.svg');
+}
+
+.img-48 {
+    background-image: url('/Pictures/CardPictures/48.svg');
+}
+
+.img-49 {
+    background-image: url('/Pictures/CardPictures/49.svg');
+}
+
+.img-50 {
+    background-image: url('/Pictures/CardPictures/50.svg');
+}
+
+.img-51 {
+    background-image: url('/Pictures/CardPictures/51.svg');
+}
+
+.img-52 {
+    background-image: url('/Pictures/CardPictures/52.svg');
+}
+
+.img-53 {
+    background-image: url('/Pictures/CardPictures/53.svg');
+}
+
+.img-54 {
+    background-image: url('/Pictures/CardPictures/54.svg');
+}
+
+.img-55 {
+    background-image: url('/Pictures/CardPictures/55.svg');
+}
+
+.img-56 {
+    background-image: url('/Pictures/CardPictures/56.svg');
+}
+
+.img-57 {
+    background-image: url('/Pictures/CardPictures/57.svg');
+}
+
+.img-58 {
+    background-image: url('/Pictures/CardPictures/58.svg');
+}
+
+.img-59 {
+    background-image: url('/Pictures/CardPictures/59.svg');
+}
+
+.img-60 {
+    background-image: url('/Pictures/CardPictures/60.svg');
+}
+
+.img-61 {
+    background-image: url('/Pictures/CardPictures/61.svg');
+}
+
+.img-62 {
+    background-image: url('/Pictures/CardPictures/62.svg');
+}
+
+.img-63 {
+    background-image: url('/Pictures/CardPictures/63.svg');
+}
+
+.img-64 {
+    background-image: url('/Pictures/CardPictures/64.svg');
+}
+
+.img-65 {
+    background-image: url('/Pictures/CardPictures/65.svg');
+}
+
+.img-66 {
+    background-image: url('/Pictures/CardPictures/66.svg');
+}
+
+.img-67 {
+    background-image: url('/Pictures/CardPictures/67.svg');
+}
+
+.img-68 {
+    background-image: url('/Pictures/CardPictures/68.svg');
+}
+
+.img-69 {
+    background-image: url('/Pictures/CardPictures/69.svg');
+}
+
+.img-70 {
+    background-image: url('/Pictures/CardPictures/70.svg');
+}
+
+.img-71 {
+    background-image: url('/Pictures/CardPictures/71.svg');
+}
+
+.img-72 {
+    background-image: url('/Pictures/CardPictures/72.svg');
+}
+
+.img-73 {
+    background-image: url('/Pictures/CardPictures/73.svg');
+}
+
+.img-74 {
+    background-image: url('/Pictures/CardPictures/74.svg');
+}
+
+.img-75 {
+    background-image: url('/Pictures/CardPictures/75.svg');
+}
+
+.img-76 {
+    background-image: url('/Pictures/CardPictures/76.svg');
+}
+
+.img-77 {
+    background-image: url('/Pictures/CardPictures/77.svg');
+}
+
+.img-78 {
+    background-image: url('/Pictures/CardPictures/78.svg');
+}
+
+.img-79 {
+    background-image: url('/Pictures/CardPictures/79.svg');
+}
+
+.img-80 {
+    background-image: url('/Pictures/CardPictures/80.svg');
+}
+
+.img-81 {
+    background-image: url('/Pictures/CardPictures/81.svg');
+}
+
+.img-82 {
+    background-image: url('/Pictures/CardPictures/82.svg');
+}
+
+.img-83 {
+    background-image: url('/Pictures/CardPictures/83.svg');
+}
+
+.img-84 {
+    background-image: url('/Pictures/CardPictures/84.svg');
+}
+
+.img-85 {
+    background-image: url('/Pictures/CardPictures/85.svg');
+}
+
+.img-86 {
+    background-image: url('/Pictures/CardPictures/86.svg');
+}
+
+.img-87 {
+    background-image: url('/Pictures/CardPictures/87.svg');
+}
+
+.img-88 {
+    background-image: url('/Pictures/CardPictures/88.svg');
+}
+
+.img-89 {
+    background-image: url('/Pictures/CardPictures/89.svg');
+}
+
+.img-90 {
+    background-image: url('/Pictures/CardPictures/90.svg');
+}
+
+.img-91 {
+    background-image: url('/Pictures/CardPictures/91.svg');
+}
+
+.img-92 {
+    background-image: url('/Pictures/CardPictures/92.svg');
+}
+
+.img-93 {
+    background-image: url('/Pictures/CardPictures/93.svg');
+}
+
+.img-94 {
+    background-image: url('/Pictures/CardPictures/94.svg');
+}
+
+.img-95 {
+    background-image: url('/Pictures/CardPictures/95.svg');
+}
+
+.img-96 {
+    background-image: url('/Pictures/CardPictures/96.svg');
+}
+
+.img-97 {
+    background-image: url('/Pictures/CardPictures/97.svg');
+}
+
+.img-98 {
+    background-image: url('/Pictures/CardPictures/98.svg');
+}
+
+.img-99 {
+    background-image: url('/Pictures/CardPictures/99.svg');
+}
+
+.img-100 {
+    background-image: url('/Pictures/CardPictures/100.svg');
+}
+
+.img-101 {
+    background-image: url('/Pictures/CardPictures/101.svg');
+}
+
+.img-102 {
+    background-image: url('/Pictures/CardPictures/102.svg');
+}
+
+.img-103 {
+    background-image: url('/Pictures/CardPictures/103.svg');
+}
+
+.img-104 {
+    background-image: url('/Pictures/CardPictures/104.svg');
+}
+
+.img-105 {
+    background-image: url('/Pictures/CardPictures/105.svg');
+}
+
+.img-106 {
+    background-image: url('/Pictures/CardPictures/106.svg');
+}
+
+.img-107 {
+    background-image: url('/Pictures/CardPictures/107.svg');
+}
+
+.img-108 {
+    background-image: url('/Pictures/CardPictures/108.svg');
+}
+
+.img-109 {
+    background-image: url('/Pictures/CardPictures/109.svg');
+}
+
+.img-110 {
+    background-image: url('/Pictures/CardPictures/110.svg');
+}
+
+.img-111 {
+    background-image: url('/Pictures/CardPictures/111.svg');
+}
+
+.img-112 {
+    background-image: url('/Pictures/CardPictures/112.svg');
+}
+
+.img-113 {
+    background-image: url('/Pictures/CardPictures/113.svg');
+}
+
+.img-114 {
+    background-image: url('/Pictures/CardPictures/114.svg');
+}
+
+.img-115 {
+    background-image: url('/Pictures/CardPictures/115.svg');
+}
+
+.img-116 {
+    background-image: url('/Pictures/CardPictures/116.svg');
+}
+
+.img-117 {
+    background-image: url('/Pictures/CardPictures/117.svg');
+}
+
+.img-118 {
+    background-image: url('/Pictures/CardPictures/118.svg');
+}
+
+.img-119 {
+    background-image: url('/Pictures/CardPictures/119.svg');
+}

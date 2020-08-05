@@ -7,7 +7,7 @@ var GameId;
 var Pseudo;
 var PseudosInGame = [];
 var PlayerCards;
-var PicturesNumber;
+var PicturesNumberPerCard;
 var PlayerGuid;
 var CenterCard;
 var DateEvent;
@@ -15,9 +15,16 @@ var DateEvent;
 function Init() {
     $('#joinGameForm').submit(function () { JoinGame("join"); });
     $('#createGameForm').submit(function () { JoinGame("create"); });
-    //$('.pictureClick').click(function () { TouchCard(this.attributes['value'].value); });
     $('#startGame').click(function () { StartGame(); });
     ShowHideSections();
+}
+
+function PictureClickSubscribe() {
+    $('.pictureClick').click(function () { TouchCard(this.attributes['value'].value); });
+}
+
+function PictureClickUnsubscribe() {
+    $('.pictureClick').off("click");
 }
 
 function ShowHideSections() {
@@ -40,7 +47,7 @@ function HideWelcomeSection() {
 }
 
 function ShowGameSection() {
-    if (PicturesNumber === undefined) {
+    if (PicturesNumberPerCard === undefined) {
         $('#startGame').hide();
         $('#startGameWait').show();
     }
@@ -68,34 +75,35 @@ function HideCards() {
 }
 
 function ShowPlayerCard() {
-    for (var i = 0; i < PlayerCards[0].values.length; i++) {
-        $(`#playerCardPicture${i}`).attr('value', PlayerCards[0].values[i]);
-        $(`#playerCardPicture${i}`).html(PlayerCards[0].values[i]);
-        $(`#playerCardPicture${i}`).show();
+    $('#playerCardPicture').html("");
+    let playerPicture = '';
+    for (let i = 0; i < PicturesNumberPerCard; i++)
+        playerPicture += `<button id="playerCardPicture${i}" class="img-picture img-${PlayerCards[0].values[i]} pictureClick" value="${PlayerCards[0].values[i]}"></button>`;
 
-        $('#cardsNumber').html(PlayerCards.length)
-    }
+    $(playerPicture).appendTo('#playerCardPicture');
+    PictureClickSubscribe();
     $('#playerCardPicture').show();
 }
 
 function HidePlayerCard() {
-    for (var i = 0; i < PlayerCards[0].values.length; i++) {
+    for (var i = 0; i < PicturesNumberPerCard; i++) {
         $(`#cardPicture${i}`).hide();
     }
     $('#playerCardPicture').hide();
 }
 
 function ShowCenterCard() {
-    for (var i = 0; i < PlayerCards[0].values.length; i++) {
-        $(`#centerCardPicture${i}`).attr('value', CenterCard.values[i]);
-        $(`#centerCardPicture${i}`).html(CenterCard.values[i]);
-        $(`#centerCardPicture${i}`).show();
-    }
+    $('#centerCardPicture').html("");
+    let centerPicture = '';
+    for (let i = 0; i < PicturesNumberPerCard; i++)
+        centerPicture += `<button id="centerCardPicture${i}" class="img-picture cursor-default img-${CenterCard.values[i]}" value="${CenterCard.values[i]}"></button>`;
+
+    $(centerPicture).appendTo('#centerCardPicture');
     $('#centerCardPicture').show();
 }
 
 function HideCenterCard() {
-    for (var i = 0; i < PlayerCards[0].values.length; i++) 
+    for (let i = 0; i < PicturesNumberPerCard; i++)
         $(`#centerCardPicture${i}`).hide();
     $('#centerCardPicture').hide();
 }
@@ -114,6 +122,7 @@ function ChangePlayerCard() {
 
 function ShowGameFinished(winnerPseudo) {
     alert("game won by" + winnerPseudo);
+    //todo show popup
 }
 
 function ChangeCenterCard(card) {
@@ -130,13 +139,13 @@ function ShowNewPlayerInGame(pseudos) {
 function GenerateGameId() {
     let result = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    for (var i = 0; i < 6; i++)
+    for (let i = 0; i < 6; i++)
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     return result;
 }
 
 function SetGameInfos(gameId, pseudo, picturesNumber) {
-    PicturesNumber = picturesNumber;
+    PicturesNumberPerCard = picturesNumber;
     GameId = gameId;
     Pseudo = pseudo;
     ShowGameIdInfo();
@@ -148,14 +157,9 @@ function ShowGameIdInfo() {
     $('#gameIdInfo').html(`<h3>Partie n° ${GameId}</h3>`);
 }
 
-function InitCardPictures() {
-    let centerPicture = '';
-    let playerPicture = '';
-    for (var i = 0; i < PlayerCards[0].values.length; i++) {
-        centerPicture += `<button id="centerCardPicture${i}" class="btn-outline-info" value="${i}"></button>`;
-        playerPicture += `<button id="playerCardPicture${i}" class="btn-outline-info pictureClick" value="${i}"></button>`;
+function LoadAllCardPictures() {
+    let totalPicturesNumber = PicturesNumberPerCard * PicturesNumberPerCard - PicturesNumberPerCard + 1;
+    for (var i = 58; i < totalPicturesNumber; i++) {
+        jQuery.get(window.location.href + `/Pictures/CardPictures/${i}.svg`)
     }
-    $(centerPicture).appendTo('#centerCardPicture');
-    $(playerPicture).appendTo('#playerCardPicture');
-    $('.pictureClick').click(function () { TouchCard(this.attributes['value'].value); });
 }
