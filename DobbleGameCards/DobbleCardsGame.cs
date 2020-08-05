@@ -13,11 +13,17 @@ namespace DobbleCardsGameLib
         public DobbleCardsGame(int valuesPerCardNumber)
         {
             _valuesPerCardNumber = valuesPerCardNumber;
-            GetAllCardsShuffled();
+            ShuffleCards();
+            ShufflePicturesCards();
         }
-  
 
-        private void GetAllCardsShuffled() => Cards = GenerateAllCards(_valuesPerCardNumber).OrderBy(_ => Guid.NewGuid()).ToList();
+        private void ShufflePicturesCards()
+        {
+            foreach (var card in Cards)
+                card.ShufflePictures();             
+        }
+
+        private void ShuffleCards() => Cards = GenerateAllCards(_valuesPerCardNumber).OrderBy(_ => Guid.NewGuid()).ToList();
 
         private List<DobbleCard> GenerateAllCards(int valuesNumber) => GenerateCardsWithSameFirstValue(valuesNumber, valuesNumber - 1);
 

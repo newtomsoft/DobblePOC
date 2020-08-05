@@ -2,20 +2,24 @@
 function CallSignalR() {
     ConnectionHubGame = new signalR.HubConnectionBuilder().withUrl("/hubGame").withAutomaticReconnect().build();
     ConnectionHubGame.start()
-        .then(function () { /*SendAddToGame();*/ })
+        .then(function () { })
         .catch(function (err) {
             return console.error(err.toString());
         });
 
-    ConnectionHubGame.on("StartGameReceive", function () {
-        StartGameReceive();
+    ConnectionHubGame.on("PlayerInGameReceive", function (pseudos) {
+        PlayerInGameReceive(pseudos);
     });
 
-    ConnectionHubGame.on("TouchCardReceive", function (playerPseudo, centerCard) {
-        TouchCardReceive(playerPseudo, centerCard);
+    ConnectionHubGame.on("StartGameReceive", function (centerCard) {
+        StartGameReceive(centerCard);
     });
 
-    ConnectionHubGame.on("GameFinishedReceive", function (playerPseudo) {
-        GameFinishedReceive(playerPseudo);
+    ConnectionHubGame.on("TouchCardReceive", function (pseudo, centerCard) {
+        TouchCardReceive(pseudo, centerCard);
+    });
+
+    ConnectionHubGame.on("GameFinishedReceive", function (pseudo) {
+        GameFinishedReceive(pseudo);
     });
 }

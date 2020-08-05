@@ -1,37 +1,57 @@
-function TouchCard(valueTouch) {
-    console.log("touch");
+function JoinGame(mode) {
+    if (mode === "join")
+        SetGameInfos($('#gameIdJoinGame').val(), $('#pseudoJoinGame').val());
+    else if (mode === "create")
+        SetGameInfos(GenerateGameId(), $('#pseudoCreateGame').val(), $('#picturesNumber').val());
+    else {
+        console.error('mode de jeu non paramétré à create ou join')
+        return;
+    }
     $.ajax({
-        url: '/Game/Touch',
+        url: '/Game/Join',
         type: 'POST',
-        data: { gameId: GameId, playerGuid: PlayerGuid, cardPlayed: PlayerCards[0], valueTouch: valueTouch, centerCard: CenterCard, guidGame: "1248", timeTakenToTouch: 500 },
-        success: function (data) { CallbackTouch(data); },
+        data: { gameId: GameId, picturesNumber: PicturesNumber },
+        success: function () { CallbackJoinGame(); },
     });
-    HidePlayerCard();
 }
 
-function GetCenterCard() {
+function AddNewPlayer() {
     $.ajax({
-        url: '/Game/GetCenterCard',
+        url: '/Game/AddNewPlayer',
+        type: 'POST',
         data: { gameId: GameId },
-        success: function (data) { CallbackGetCenterCard(data); },
-    });
-
-}
-
-function GetNewPlayerGuid() {
-    $.ajax({
-        url: '/Game/GetNewPlayerGuid',
-        data: { gameId: GameId },
-        success: function (guid) { CallbackGetNewPlayerGuid(guid); },
+        success: function (data) { CallbackAddNewPlayer(data); },
     });
 }
 
 function StartGame() {
     $.ajax({
-        url: '/Game/StartGame',
-        data: { gameId: GameId },
-        success: function () { CallbackStartGame(); },
+        url: '/Game/Start',
+        type: 'POST',
+        data: { gameId: GameId, picturesNumber: PicturesNumber },
+        success: function (centerCard) { CallbackStartGame(centerCard); },
     });
+}
+
+function TouchCard(valueTouch) {
+    $.ajax({
+        url: '/Game/Touch',
+        type: 'POST',
+        data: { gameId: GameId, playerGuid: PlayerGuid, cardPlayed: PlayerCards[0], valueTouch: valueTouch, centerCard: CenterCard/*, timeTakenToTouch: 500*/ },
+        success: function (data) { CallbackTouch(data); },
+    });
+    HidePlayerCard();
+}
+
+function GetCenterCard(card) {
+    if (card === undefined)
+        $.ajax({
+            url: '/Game/GetCenterCard',
+            data: { gameId: GameId },
+            success: function (data) { CallbackGetCenterCard(data); },
+        });
+    else
+        CenterCard = card;
 }
 
 function GetCards() {

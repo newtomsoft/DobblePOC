@@ -1,8 +1,13 @@
-﻿function CallbackTouch(data) {
-    console.log("CallbackTouch");
+﻿function CallbackJoinGame() {
+    SendPlayerInGame();
+    ShowHideSections();
+    AddNewPlayer();
+}
+
+function CallbackTouch(data) {
     if (data.answerStatus === 1) {
         if (data.gameFinish === true) {
-            SendGameFinished(PlayerPseudo);
+            SendGameFinished(Pseudo);
         }
         else {
             ChangePlayerCard();
@@ -10,12 +15,9 @@
         }
     }
     else if (data.answerStatus === 2) {
-        console.log("Wrong value touched");
         ShowPlayerCard();
     }
     else {
-        console.log("To Late");
-        alert("trop tard !");
         ShowPlayerCard();
     }
 }
@@ -24,15 +26,17 @@ function CallbackGetCenterCard(data) {
     CenterCard = data;
 }
 
-function CallbackGetNewPlayerGuid(guid) {
-    PlayerGuid = guid;
+function CallbackAddNewPlayer(data) {
+    PlayerGuid = data.playerGuid;
+    PicturesNumber = data.picturesNumber;
 }
 
-function CallbackStartGame() {
-    SendStartGame();
+function CallbackStartGame(centerCard) {
+    SendStartGame(centerCard);
 }
 
 function CallbackGetCards(data) {
     PlayerCards = data;
+    InitCardPictures();
     ShowCards();
 }

@@ -7,7 +7,7 @@ namespace DobblePOC.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ILogger<HomeController> logger, IApplicationManager gameManager)
+        public HomeController(IApplicationManager gameManager)
         {
 
         }
@@ -19,17 +19,8 @@ namespace DobblePOC.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewGame()
+        public IActionResult NewGame(string pseudo)
         {
-            const int idLength = 5;
-            string randomId = RandomId(idLength);
-
-            return View(randomId);
-
-
-
-
-
             static string RandomId(int length)
             {
                 const string src = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -42,10 +33,14 @@ namespace DobblePOC.Controllers
                 }
                 return sb.ToString();
             }
+            const int idLength = 5;
+            string randomId = RandomId(idLength);
+
+            return RedirectToAction("Join", "Game", new { gameId = randomId, pseudo = pseudo });
         }
 
         [HttpGet]
-        public IActionResult JoinGame()
+        public IActionResult Join()
         {
             return View();
         }

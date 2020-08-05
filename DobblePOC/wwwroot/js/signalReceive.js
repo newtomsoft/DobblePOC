@@ -1,16 +1,19 @@
-﻿async function StartGameReceive() {
-    console.log("StartGameReceive");
-    GetCenterCard();
+﻿async function PlayerInGameReceive(pseudos) {
+    ShowNewPlayerInGame(pseudos);
+}
+
+async function StartGameReceive(centerCard) {
+    GetCenterCard(centerCard);
     GetCards();
 }
 
-async function TouchCardReceive(playerPseudo, centerCard) {
-    console.log("receive by player " + playerPseudo);
+async function TouchCardReceive(pseudo, centerCard) {
     ChangeCenterCard(centerCard);
     ShowCards();
 }
 
-async function GameFinishedReceive(playerPseudo) {
+async function GameFinishedReceive(pseudo) {
     ShowCards();
-    ShowGameFinished(playerPseudo);
+    ShowGameFinished(pseudo);
 }
+

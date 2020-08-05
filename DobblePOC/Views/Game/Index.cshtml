@@ -2,29 +2,62 @@
     Layout = "_LayoutGame.cshtml";
     ViewData["Title"] = "Jouer";
 }
-<div>
-    <button id="startGame" class="btn-outline-primary">Commencer la partie !</button>
-</div>
-<br />
-<div>
-    <button id="centerCard0" class="btn-outline-info" value="0" style="display:none"></button>
-    <button id="centerCard1" class="btn-outline-info" value="1" style="display:none"></button>
-    <button id="centerCard2" class="btn-outline-info" value="2" style="display:none"></button>
-    <button id="centerCard3" class="btn-outline-info" value="3" style="display:none"></button>
-    <button id="centerCard4" class="btn-outline-info" value="4" style="display:none"></button>
-    <button id="centerCard5" class="btn-outline-info" value="5" style="display:none"></button>
-    <button id="centerCard6" class="btn-outline-info" value="6" style="display:none"></button>
-    <button id="centerCard7" class="btn-outline-info" value="7" style="display:none"></button>
-</div>
-<br />
-<div>
-    <button id="card0" class="btn-outline-info valueToTouch" value="0" style="display:none"></button>
-    <button id="card1" class="btn-outline-info valueToTouch" value="1" style="display:none"></button>
-    <button id="card2" class="btn-outline-info valueToTouch" value="2" style="display:none"></button>
-    <button id="card3" class="btn-outline-info valueToTouch" value="3" style="display:none"></button>
-    <button id="card4" class="btn-outline-info valueToTouch" value="4" style="display:none"></button>
-    <button id="card5" class="btn-outline-info valueToTouch" value="5" style="display:none"></button>
-    <button id="card6" class="btn-outline-info valueToTouch" value="6" style="display:none"></button>
-    <button id="card7" class="btn-outline-info valueToTouch" value="7" style="display:none"></button>
-</div>
-<div id="cardsNumber"></div>
+
+<section id="createJoinGameSection" style="display:none">
+    <h3>Créer une partie</h3>
+    <form id="createGameForm" action="javascript:void(0);">
+        <div class="form-group">
+            <label class="control-label">Votre pseudo</label>
+            <input id="pseudoCreateGame" name="pseudoCreateGame" class="form-control" type="text" value="" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Nombre d'images par carte</label>
+            <input id="picturesNumber" name="picturesNumber" class="form-control" type="number" value="8" required />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Créer la partie" />
+        </div>
+    </form>
+    <h3>Rejoindre une partie</h3>
+    <form id="joinGameForm" action="javascript:void(0);">
+        <div class="form-group">
+            <label class="control-label">Votre pseudo</label>
+            <input id="pseudoJoinGame" name="pseudoJoinGame" class="form-control" type="text" value="" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Identifiant de la partie</label>
+            <input id="gameIdJoinGame" name="gameId" class="form-control" type="text" value="" required />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Créer la partie" />
+        </div>
+    </form>
+</section>
+
+<section id="gameSection" style="display:none">
+    <div id="gameIdInfo">
+        <h3></h3>
+    </div>
+    <div>
+        <h4>Joueurs présents :</h4>
+        <div id="pseudos"></div>
+    </div>
+
+    <div>
+        <button id="startGame" class="btn-outline-primary">Commencer la partie !</button>
+        <div id="startGameWait"><p><b>En attente du lancement de la partie par le joueur l'ayant créée</b></p></div>
+    </div>
+    <br />
+    <div id="centerCard">
+        <p>Pile centrale</p>
+        <div id="centerCardPicture">
+        </div>
+    </div>
+    <br />
+    <div id="playerCard">
+        <p>Votre pile</p>
+        <div id="playerCardPicture">
+        </div>
+    </div>
+    <div id="cardsNumber"></div>
+</section>

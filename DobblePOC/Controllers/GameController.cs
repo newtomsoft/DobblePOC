@@ -4,33 +4,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using DobbleCardsGameLib;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DobblePOC.Controllers
 {
     public class GameController : Controller
     {
-        private const int NUMBER_OF_SYMBOLS = 3;
-        private readonly ILogger<GameController> _logger;
-
         private IApplicationManager ApplicationManager { get; }
-        private string GameId { get; set; }
 
-        public GameController(ILogger<GameController> logger, IApplicationManager applicationManager)
+        public GameController(IApplicationManager applicationManager) => ApplicationManager = applicationManager;
+
+        [HttpPost]
+        public IActionResult Join(string gameId, int picturesNumber)
         {
-            _logger = logger;
-            ApplicationManager = applicationManager;
+            ApplicationManager.UseGameManager(gameId, picturesNumber);
+            return Ok();
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult StartGame(string gameId)
+
+        [HttpPost]
+        public IActionResult Start(string gameId, int picturesNumber)
         {
-            ApplicationManager.GamesManager[gameId].AddCardsToGame(new DobbleCardsGame(NUMBER_OF_SYMBOLS).Cards);
-            return new JsonResult("Ok");
+            ApplicationManager.GamesManager[gameId].DistributeCards(new DobbleCardsGame(picturesNumber).Cards);
+            //todo revoir appel sans passer picturesNumber déjà connu par GamesManager
+            return new JsonResult(ApplicationManager.GamesManager[gameId].GetCenterCard());
         }
 
         [HttpGet]
@@ -40,22 +41,22 @@ namespace DobblePOC.Controllers
             return new JsonResult(cards);
         }
 
-
         [HttpGet]
         public JsonResult GetCenterCard(string gameId)
         {
             return new JsonResult(ApplicationManager.GamesManager[gameId].GetCenterCard());
         }
 
-        [HttpGet]
-        public JsonResult GetNewPlayerGuid(string gameId)
+        [HttpPost]
+        public JsonResult AddNewPlayer(string gameId)
         {
-            ApplicationManager.UseGameManager(gameId);
-            return new JsonResult(ApplicationManager.GamesManager[gameId].GetNewPlayer());
+            int picturesNumber = ApplicationManager.UseGameManager(gameId);
+            string playerGuid = ApplicationManager.GamesManager[gameId].GetNewPlayer();
+            return new JsonResult(new { playerGuid, picturesNumber });
         }
 
         [HttpPost]
-        public JsonResult Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, string guidGame, TimeSpan timeTakenToTouch)
+        public JsonResult Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch)
         {
             if (cardPlayed != ApplicationManager.GamesManager[gameId].GetCurrentCard(playerGuid))
                 return new JsonResult(new { answerStatus = AnswerStatus.CardPlayedDontExist });
@@ -67,7 +68,10 @@ namespace DobblePOC.Controllers
             {
                 ApplicationManager.GamesManager[gameId].SetCenterCard(cardPlayed);
                 if (ApplicationManager.GamesManager[gameId].IncreaseCardsCurrentIndex(playerGuid))
+                {
+                    ApplicationManager.FreeGameManager(gameId);
                     return new JsonResult(new { answerStatus = AnswerStatus.Ok, gameFinish = true });
+                }
 
                 return new JsonResult(new { answerStatus = AnswerStatus.Ok, centerCard = ApplicationManager.GamesManager[gameId].GetCenterCard() });
             }

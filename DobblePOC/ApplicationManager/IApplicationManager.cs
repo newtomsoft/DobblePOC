@@ -1,5 +1,4 @@
-﻿using DobbleCardsGameLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DobblePOC
 {
@@ -7,6 +6,7 @@ namespace DobblePOC
     {
         public Dictionary<string, GameManager> GamesManager { get; }
 
-        void UseGameManager(string gameId);
+        int UseGameManager(string gameId, int picturesNumber = 0);
+        void FreeGameManager(string gameId);
     }
 }
