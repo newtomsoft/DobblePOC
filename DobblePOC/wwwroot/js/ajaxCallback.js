@@ -1,24 +1,19 @@
-﻿function CallbackJoinGame() {
+﻿function CallbackJoinGame(data) {
+    GameId = data.gameId;
     SendPlayerInGame();
     ShowHideSections();
     AddNewPlayer();
 }
 
 function CallbackTouch(data) {
-    if (data.answerStatus === 1) { // status ok
-        if (data.gameFinish === true) {
-            SendGameFinished(Pseudo);
-        }
-        else {
-            PictureClickSubscribe();
-            ChangePlayerCard();
-            SendTouchCard(data.centerCard);
-        }
+    if (data.status === 1) { // status ok
+        PictureClickSubscribe();
+        ChangePlayerCard();
+        SendTouchCard(data.centerCard);
     }
-    //else if (data.answerStatus === 2) { //status wrong picture
-    //    let delayInMilliseconds = 2000;
-    //    setTimeout(function () { PictureClickSubscribe(); }, delayInMilliseconds);
-    //}
+    else if (data.status === 2) {// game finished
+        SendGameFinished(Pseudo);
+    }
     else {
         let delayInMilliseconds = 2000;
         setTimeout(function () { PictureClickSubscribe(); }, delayInMilliseconds);
@@ -33,6 +28,7 @@ function CallbackAddNewPlayer(data) {
     PlayerGuid = data.playerGuid;
     PicturesNumberPerCard = data.picturesNumber;
     LoadAllCardPictures();
+    ShowGameIdInfo();
 }
 
 function CallbackStartGame(centerCard) {

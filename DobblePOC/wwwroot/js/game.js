@@ -13,8 +13,8 @@ var CenterCard;
 var DateEvent;
 
 function Init() {
-    $('#joinGameForm').submit(function () { JoinGame("join"); });
-    $('#createGameForm').submit(function () { JoinGame("create"); });
+    $('#createGameForm').submit(function () { JoinGame(1); }); //todo remplacer 1 par enum c# passé en var
+    $('#joinGameForm').submit(function () { JoinGame(2); }); //todo remplacer 2 par enum c# passé en var
     $('#startGame').click(function () { StartGame(); });
     ShowHideSections();
 }
@@ -82,7 +82,9 @@ function ShowPlayerCard() {
 
     $(playerPicture).appendTo('#playerCardPicture');
     PictureClickSubscribe();
+    $('#cardsNumber').html(`Il vous reste : ${PlayerCards.length} cartes`);
     $('#playerCardPicture').show();
+
 }
 
 function HidePlayerCard() {
@@ -121,7 +123,7 @@ function ChangePlayerCard() {
 }
 
 function ShowGameFinished(winnerPseudo) {
-    alert("game won by" + winnerPseudo);
+    alert(`Partie gagnée par ${winnerPseudo}`);
     //todo show popup
 }
 
@@ -134,21 +136,6 @@ function ShowNewPlayerInGame(pseudos) {
     let pseudosString = [];
     PseudosInGame.forEach(pseudo => pseudosString.push(pseudo + "   "))
     $('#pseudos').html(pseudosString);
-}
-
-function GenerateGameId() {
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    for (let i = 0; i < 6; i++)
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    return result;
-}
-
-function SetGameInfos(gameId, pseudo, picturesNumber) {
-    PicturesNumberPerCard = picturesNumber;
-    GameId = gameId;
-    Pseudo = pseudo;
-    ShowGameIdInfo();
 }
 
 function ShowGameIdInfo() {

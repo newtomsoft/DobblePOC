@@ -1,17 +1,21 @@
-function JoinGame(mode) {
-    if (mode === "join")
-        SetGameInfos($('#gameIdJoinGame').val(), $('#pseudoJoinGame').val());
-    else if (mode === "create")
-        SetGameInfos(GenerateGameId(), $('#pseudoCreateGame').val(), $('#picturesNumber').val());
-    else {
+function JoinGame(method) {
+    if (method !== 1 && method !== 2) {
         console.error('mode de jeu non paramétré à create ou join')
         return;
+    }
+    if (method === 1) { // create
+        PicturesNumberPerCard = $('#picturesNumber').val();
+        Pseudo = $('#pseudoCreateGame').val();
+    }
+    else if (method === 2) { //join
+        GameId = $('#gameIdJoinGame').val();
+        Pseudo = $('#pseudoJoinGame').val();
     }
     $.ajax({
         url: '/Game/Join',
         type: 'POST',
-        data: { gameId: GameId, picturesNumber: PicturesNumberPerCard },
-        success: function () { CallbackJoinGame(); },
+        data: { gameId: GameId, joinMethod: method, picturesNumber: PicturesNumberPerCard },
+        success: function (data) { CallbackJoinGame(data); },
     });
 }
 
@@ -28,7 +32,7 @@ function StartGame() {
     $.ajax({
         url: '/Game/Start',
         type: 'POST',
-        data: { gameId: GameId, picturesNumber: PicturesNumberPerCard },
+        data: { gameId: GameId },
         success: function (centerCard) { CallbackStartGame(centerCard); },
     });
 }

@@ -1,8 +1,9 @@
 ﻿namespace DobblePOC
 {
-    public enum AnswerStatus
+    public enum TouchStatus
     {
-        Ok = 1,
+        TouchOk = 1,
+        TouchOkAndGameFinish,
         WrongValueTouch,
         ToLate,
         CardPlayedDontExist,

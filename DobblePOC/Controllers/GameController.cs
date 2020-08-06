@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using DobbleCardsGameLib;
 using Microsoft.AspNetCore.Mvc;
@@ -9,16 +10,11 @@ namespace DobblePOC.Controllers
 {
     public class GameController : Controller
     {
+        private const int GAME_ID_LENGTH = 4;
+
         private IApplicationManager ApplicationManager { get; }
 
         public GameController(IApplicationManager applicationManager) => ApplicationManager = applicationManager;
-
-        [HttpPost]
-        public IActionResult Join(string gameId, int picturesNumber)
-        {
-            ApplicationManager.UseGameManager(gameId, picturesNumber);
-            return Ok();
-        }
 
         [HttpGet]
         public IActionResult Index()
@@ -27,10 +23,27 @@ namespace DobblePOC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Start(string gameId, int picturesNumber)
+        public IActionResult Join(string gameId, GameJoinMethod joinMethod, int picturesNumber)
         {
-            ApplicationManager.GamesManager[gameId].DistributeCards(new DobbleCardsGame(picturesNumber).Cards);
-            //todo revoir appel sans passer picturesNumber déjà connu par GamesManager
+            if (joinMethod == GameJoinMethod.Create)
+                gameId = RandomId();
+
+            ApplicationManager.UseGameManager(gameId, joinMethod, picturesNumber);
+            return new JsonResult(new { gameId });
+        }
+
+        [HttpPost]
+        public JsonResult AddNewPlayer(string gameId)
+        {
+            int picturesNumber = ApplicationManager.UseGameManager(gameId);
+            string playerGuid = ApplicationManager.GamesManager[gameId].GetNewPlayer();
+            return new JsonResult(new { playerGuid, picturesNumber });
+        }
+
+        [HttpPost]
+        public IActionResult Start(string gameId)
+        {
+            ApplicationManager.GamesManager[gameId].DistributeCards();
             return new JsonResult(ApplicationManager.GamesManager[gameId].GetCenterCard());
         }
 
@@ -48,36 +61,23 @@ namespace DobblePOC.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddNewPlayer(string gameId)
-        {
-            int picturesNumber = ApplicationManager.UseGameManager(gameId);
-            string playerGuid = ApplicationManager.GamesManager[gameId].GetNewPlayer();
-            return new JsonResult(new { playerGuid, picturesNumber });
-        }
-
-        [HttpPost]
         public JsonResult Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch)
         {
-            if (cardPlayed != ApplicationManager.GamesManager[gameId].GetCurrentCard(playerGuid))
-                return new JsonResult(new { answerStatus = AnswerStatus.CardPlayedDontExist });
+            var response = ApplicationManager.Touch(gameId, playerGuid, cardPlayed, valueTouch, centerCard, timeTakenToTouch);
+            return new JsonResult(response);
+        }
 
-            if (centerCard != ApplicationManager.GamesManager[gameId].GetCenterCard())
-                return new JsonResult(new { answerStatus = AnswerStatus.ToLate });
-
-            if (centerCard.Values.Any(value => value == valueTouch))
+        private static string RandomId()
+        {
+            const string src = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var sb = new StringBuilder();
+            Random Random = new Random();
+            for (var i = 0; i < GAME_ID_LENGTH; i++)
             {
-                ApplicationManager.GamesManager[gameId].SetCenterCard(cardPlayed);
-                if (ApplicationManager.GamesManager[gameId].IncreaseCardsCurrentIndex(playerGuid))
-                {
-                    ApplicationManager.FreeGameManager(gameId);
-                    return new JsonResult(new { answerStatus = AnswerStatus.Ok, gameFinish = true });
-                }
-
-                return new JsonResult(new { answerStatus = AnswerStatus.Ok, centerCard = ApplicationManager.GamesManager[gameId].GetCenterCard() });
+                var c = src[Random.Next(0, src.Length)];
+                sb.Append(c);
             }
-
-            return new JsonResult(new { answerStatus = AnswerStatus.WrongValueTouch });
-
+            return sb.ToString();
         }
     }
 }
