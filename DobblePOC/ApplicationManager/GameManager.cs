@@ -65,5 +65,14 @@ namespace DobblePOC
             PlayersGuids_Cards.Add(playerGuid, (0, new List<DobbleCard>()));
             return playerGuid;
         }
+
+        public string GetCenterCardsDevice()
+        {
+            if (GameInProgress || GameFinished)
+                return string.Empty;
+
+            var centerCardsDevice = Guid.NewGuid().ToString("N");
+            return centerCardsDevice;
+        }
     }
 }

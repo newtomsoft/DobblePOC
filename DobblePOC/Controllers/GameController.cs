@@ -24,22 +24,24 @@ namespace DobblePOC.Controllers
         public IActionResult Create(int picturesPerCard)
         {
             string gameId = ApplicationManager.CreateGameManager(picturesPerCard);
-            return new JsonResult(new { gameId });
+            string playerGuid = AddNewPlayer(gameId);
+            return new JsonResult(new { gameId, playerGuid, picturesPerCard });
         }
 
         [HttpPost]
         public IActionResult Join(string gameId)
         {
-            ApplicationManager.JoinGameManager(gameId);
-            return new JsonResult(new { gameId });
+            int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
+            string playerGuid = AddNewPlayer(gameId);
+            return new JsonResult(new { gameId, playerGuid, picturesPerCard });
         }
 
         [HttpPost]
-        public JsonResult AddNewPlayer(string gameId)
+        public JsonResult AddCenterCardsDevice(string gameId)
         {
             int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
-            string playerGuid = ApplicationManager.GamesManager[gameId].GetNewPlayer();
-            return new JsonResult(new { playerGuid, picturesPerCard });
+            string centerCardsDeviceGuid = ApplicationManager.GamesManager[gameId].GetCenterCardsDevice();
+            return new JsonResult(new { centerCardsDeviceGuid, picturesPerCard });
         }
 
         [HttpPost]
@@ -69,6 +71,6 @@ namespace DobblePOC.Controllers
             return new JsonResult(response);
         }
 
-
+        private string AddNewPlayer(string gameId) => ApplicationManager.GamesManager[gameId].GetNewPlayer();
     }
 }

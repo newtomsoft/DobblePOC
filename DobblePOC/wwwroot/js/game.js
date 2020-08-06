@@ -15,8 +15,8 @@ var DateEvent;
 function Init() {
     $('#createGameForm').submit(function () { CreateGame(1); }); //todo remplacer 1 par enum c# passé en var
     $('#joinGameForm').submit(function () { JoinGame(2); }); //todo remplacer 2 par enum c# passé en var
-    $('#startGame').click(function () { StartGame(); });
-    ShowHideSections();
+    $('#startGameButton').click(function () { StartGame(); });
+    ShowOrHideSections();
 }
 
 function PictureClickSubscribe() {
@@ -27,14 +27,14 @@ function PictureClickUnsubscribe() {
     $('.pictureClick').off("click");
 }
 
-function ShowHideSections() {
+function ShowOrHideSections(mode) {
     if (Pseudo === undefined || GameId === undefined) {
         HideGameSection();
         ShowWelcomeSection();
     }
     else {
         HideWelcomeSection();
-        ShowGameSection();
+        ShowGameSection(mode);
     }
 }
 
@@ -46,8 +46,8 @@ function HideWelcomeSection() {
     $("#createJoinGameSection").hide();
 }
 
-function ShowGameSection() {
-    if (PicturesPerCard === undefined) {
+function ShowGameSection(mode) {
+    if (mode === "join") {
         $('#startGame').hide();
         $('#startGameWait').show();
     }

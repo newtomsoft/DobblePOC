@@ -5,7 +5,7 @@ function CreateGame() {
         url: '/Game/Create',
         type: 'POST',
         data: { picturesPerCard: PicturesPerCard },
-        success: function (data) { CallbackCreateGame(data); },
+        success: function (data) { CallbackCreateOrJoinGame(data, "create"); },
     });
 }
 
@@ -16,18 +16,7 @@ function JoinGame() {
         url: '/Game/Join',
         type: 'POST',
         data: { gameId: GameId },
-        success: function (data) { CallbackJoinGame(data); },
-    });
-}
-
-
-
-function AddNewPlayer() {
-    $.ajax({
-        url: '/Game/AddNewPlayer',
-        type: 'POST',
-        data: { gameId: GameId },
-        success: function (data) { CallbackAddNewPlayer(data); },
+        success: function (data) { CallbackCreateOrJoinGame(data, "join"); },
     });
 }
 

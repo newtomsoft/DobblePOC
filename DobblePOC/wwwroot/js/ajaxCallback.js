@@ -1,15 +1,12 @@
-﻿function CallbackCreateGame(data) {
+﻿function CallbackCreateOrJoinGame(data, mode) {
     GameId = data.gameId;
-    SendPlayerInGame();
-    ShowHideSections();
-    AddNewPlayer();
-}
-
-function CallbackJoinGame(data) {
     PicturesPerCard = data.picturesPerCard;
     SendPlayerInGame();
-    ShowHideSections();
-    AddNewPlayer();
+    ShowOrHideSections(mode);
+    PlayerGuid = data.playerGuid;
+    PicturesPerCard = data.picturesPerCard;
+    LoadAllCardPictures();
+    ShowGameIdInfo();
 }
 
 function CallbackTouch(data) {
@@ -29,13 +26,6 @@ function CallbackTouch(data) {
 
 function CallbackGetCenterCard(data) {
     CenterCard = data;
-}
-
-function CallbackAddNewPlayer(data) {
-    PlayerGuid = data.playerGuid;
-    PicturesPerCard = data.picturesPerCard;
-    LoadAllCardPictures();
-    ShowGameIdInfo();
 }
 
 function CallbackStartGame(centerCard) {
