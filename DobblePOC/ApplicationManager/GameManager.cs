@@ -9,7 +9,7 @@ namespace DobblePOC
     {
         public Dictionary<string, (int indexCurrentCard, List<DobbleCard> Cards)> PlayersGuids_Cards { get; private set; }
         public int PlayersNumber { get => PlayersGuids_Cards.Count; }
-        public int PicturesNumber { get; }
+        public int PicturesPerCard { get; }
         public object GameManagerLock { get; } = new object();
 
         private bool GameInProgress { get; set; }
@@ -20,7 +20,7 @@ namespace DobblePOC
         {
             PlayersGuids_Cards = new Dictionary<string, (int indexCurrentCard, List<DobbleCard> Cards)>();
             GameInProgress = false;
-            PicturesNumber = picturesNumber;
+            PicturesPerCard = picturesNumber;
         }
 
         public DobbleCard GetCenterCard() => CenterCard;
@@ -42,7 +42,7 @@ namespace DobblePOC
 
         public void DistributeCards()
         {
-            var cards = new DobbleCardsGame(PicturesNumber).Cards;
+            var cards = new DobbleCardsGame(PicturesPerCard).Cards;
             if (GameInProgress) return;
             CenterCard = cards[0];
             int cardsNumberPerPlayer = (cards.Count - 1) / PlayersNumber;

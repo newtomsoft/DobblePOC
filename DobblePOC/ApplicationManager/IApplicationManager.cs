@@ -7,8 +7,9 @@ namespace DobblePOC
     public interface IApplicationManager
     {
         public Dictionary<string, GameManager> GamesManager { get; }
+        public string CreateGameManager(int picturesPerCard);
+        public int JoinGameManager(string gameId);
 
-        int UseGameManager(string gameId, GameJoinMethod joinMethod = GameJoinMethod.Join, int picturesNumber = 0);
         void FreeGameManager(string gameId);
         TouchResponse Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch);
     }

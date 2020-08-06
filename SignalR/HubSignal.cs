@@ -12,21 +12,21 @@ namespace SignalR.Hubs
     {
         static private Dictionary<string, List<string>> GameId_Pseudos { get; set; }
 
-        public async Task SendPlayerInGame(string gameId, string pseudo)
+        public async Task HubPlayerInGame(string gameId, string pseudo)
         {
             GameId_Pseudos ??= new Dictionary<string, List<string>>();
             GameId_Pseudos.TryAdd(gameId, new List<string>());
             GameId_Pseudos[gameId].Add(pseudo);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-            await Clients.Group(gameId).SendAsync("PlayerInGameReceive", GameId_Pseudos[gameId]);
+            await Clients.Group(gameId).SendAsync("ReceivePlayerInGame", GameId_Pseudos[gameId]);
         }
 
-        public async Task SendStartGame(object centerCard) => await Clients.All.SendAsync("StartGameReceive", centerCard);
+        public async Task HubStartGame(object centerCard) => await Clients.All.SendAsync("ReceiveStartGame", centerCard);
 
-        public async Task SendTouchCard(string pseudo, object centerCard) => await Clients.All.SendAsync("TouchCardReceive", pseudo, centerCard);
+        public async Task HubChangeCenterCard(string pseudo, object centerCard) => await Clients.All.SendAsync("ReceiveChangeCenterCard", pseudo, centerCard);
 
-        public async Task SendGameFinished(string pseudo) => await Clients.All.SendAsync("GameFinishedReceive", pseudo);
+        public async Task HubGameFinished(string pseudo) => await Clients.All.SendAsync("ReceiveGameFinished", pseudo);
 
     }
 }

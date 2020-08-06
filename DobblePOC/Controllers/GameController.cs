@@ -10,8 +10,6 @@ namespace DobblePOC.Controllers
 {
     public class GameController : Controller
     {
-        private const int GAME_ID_LENGTH = 4;
-
         private IApplicationManager ApplicationManager { get; }
 
         public GameController(IApplicationManager applicationManager) => ApplicationManager = applicationManager;
@@ -23,21 +21,25 @@ namespace DobblePOC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Join(string gameId, GameJoinMethod joinMethod, int picturesNumber)
+        public IActionResult Create(int picturesPerCard)
         {
-            if (joinMethod == GameJoinMethod.Create)
-                gameId = RandomId();
+            string gameId = ApplicationManager.CreateGameManager(picturesPerCard);
+            return new JsonResult(new { gameId });
+        }
 
-            ApplicationManager.UseGameManager(gameId, joinMethod, picturesNumber);
+        [HttpPost]
+        public IActionResult Join(string gameId)
+        {
+            ApplicationManager.JoinGameManager(gameId);
             return new JsonResult(new { gameId });
         }
 
         [HttpPost]
         public JsonResult AddNewPlayer(string gameId)
         {
-            int picturesNumber = ApplicationManager.UseGameManager(gameId);
+            int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
             string playerGuid = ApplicationManager.GamesManager[gameId].GetNewPlayer();
-            return new JsonResult(new { playerGuid, picturesNumber });
+            return new JsonResult(new { playerGuid, picturesPerCard });
         }
 
         [HttpPost]
@@ -67,17 +69,6 @@ namespace DobblePOC.Controllers
             return new JsonResult(response);
         }
 
-        private static string RandomId()
-        {
-            const string src = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var sb = new StringBuilder();
-            Random Random = new Random();
-            for (var i = 0; i < GAME_ID_LENGTH; i++)
-            {
-                var c = src[Random.Next(0, src.Length)];
-                sb.Append(c);
-            }
-            return sb.ToString();
-        }
+
     }
 }

@@ -1,23 +1,26 @@
-function JoinGame(method) {
-    if (method !== 1 && method !== 2) {
-        console.error('mode de jeu non paramétré à create ou join')
-        return;
-    }
-    if (method === 1) { // create
-        PicturesNumberPerCard = $('#picturesNumber').val();
-        Pseudo = $('#pseudoCreateGame').val();
-    }
-    else if (method === 2) { //join
-        GameId = $('#gameIdJoinGame').val();
-        Pseudo = $('#pseudoJoinGame').val();
-    }
+function CreateGame() {
+    PicturesPerCard = $('#picturesNumber').val();
+    Pseudo = $('#pseudoCreateGame').val();
+    $.ajax({
+        url: '/Game/Create',
+        type: 'POST',
+        data: { picturesPerCard: PicturesPerCard },
+        success: function (data) { CallbackCreateGame(data); },
+    });
+}
+
+function JoinGame() {
+    GameId = $('#gameIdJoinGame').val().toUpperCase();
+    Pseudo = $('#pseudoJoinGame').val();
     $.ajax({
         url: '/Game/Join',
         type: 'POST',
-        data: { gameId: GameId, joinMethod: method, picturesNumber: PicturesNumberPerCard },
+        data: { gameId: GameId },
         success: function (data) { CallbackJoinGame(data); },
     });
 }
+
+
 
 function AddNewPlayer() {
     $.ajax({

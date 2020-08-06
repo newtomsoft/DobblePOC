@@ -7,19 +7,19 @@ function CallSignalR() {
             return console.error(err.toString());
         });
 
-    ConnectionHubGame.on("PlayerInGameReceive", function (pseudos) {
-        PlayerInGameReceive(pseudos);
+    ConnectionHubGame.on("ReceivePlayerInGame", function (pseudos) {
+        ReceivePlayerInGame(pseudos);
     });
 
-    ConnectionHubGame.on("StartGameReceive", function (centerCard) {
-        StartGameReceive(centerCard);
+    ConnectionHubGame.on("ReceiveStartGame", function (centerCard) {
+        ReceiveStartGame(centerCard);
     });
 
-    ConnectionHubGame.on("TouchCardReceive", function (pseudo, centerCard) {
-        TouchCardReceive(pseudo, centerCard);
+    ConnectionHubGame.on("ReceiveChangeCenterCard", function (pseudo, centerCard) {
+        ReceiveChangeCenterCard(pseudo, centerCard);
     });
 
-    ConnectionHubGame.on("GameFinishedReceive", function (pseudo) {
-        GameFinishedReceive(pseudo);
+    ConnectionHubGame.on("ReceiveGameFinished", function (pseudo) {
+        ReceiveGameFinished(pseudo);
     });
 }

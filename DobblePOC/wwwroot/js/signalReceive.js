@@ -1,18 +1,20 @@
-﻿async function PlayerInGameReceive(pseudos) {
+﻿async function ReceivePlayerInGame(pseudos) {
     ShowNewPlayerInGame(pseudos);
 }
 
-async function StartGameReceive(centerCard) {
+async function ReceiveStartGame(centerCard) {
     GetCenterCard(centerCard);
     GetCards();
 }
 
-async function TouchCardReceive(pseudo, centerCard) {
+async function ReceiveChangeCenterCard(pseudo, centerCard) {
     ChangeCenterCard(centerCard);
     ShowCards();
+    ShowPlayerPutDownCard(pseudo);
 }
 
-async function GameFinishedReceive(pseudo) {
+async function ReceiveGameFinished(pseudo) {
+    ShowPlayerPutDownCard(pseudo);
     ShowCards();
     ShowGameFinished(pseudo);
 }

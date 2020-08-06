@@ -7,13 +7,13 @@ var GameId;
 var Pseudo;
 var PseudosInGame = [];
 var PlayerCards;
-var PicturesNumberPerCard;
+var PicturesPerCard;
 var PlayerGuid;
 var CenterCard;
 var DateEvent;
 
 function Init() {
-    $('#createGameForm').submit(function () { JoinGame(1); }); //todo remplacer 1 par enum c# passé en var
+    $('#createGameForm').submit(function () { CreateGame(1); }); //todo remplacer 1 par enum c# passé en var
     $('#joinGameForm').submit(function () { JoinGame(2); }); //todo remplacer 2 par enum c# passé en var
     $('#startGame').click(function () { StartGame(); });
     ShowHideSections();
@@ -47,7 +47,7 @@ function HideWelcomeSection() {
 }
 
 function ShowGameSection() {
-    if (PicturesNumberPerCard === undefined) {
+    if (PicturesPerCard === undefined) {
         $('#startGame').hide();
         $('#startGameWait').show();
     }
@@ -77,7 +77,7 @@ function HideCards() {
 function ShowPlayerCard() {
     $('#playerCardPicture').html("");
     let playerPicture = '';
-    for (let i = 0; i < PicturesNumberPerCard; i++)
+    for (let i = 0; i < PicturesPerCard; i++)
         playerPicture += `<button id="playerCardPicture${i}" class="img-picture img-${PlayerCards[0].values[i]} pictureClick" value="${PlayerCards[0].values[i]}"></button>`;
 
     $(playerPicture).appendTo('#playerCardPicture');
@@ -88,7 +88,7 @@ function ShowPlayerCard() {
 }
 
 function HidePlayerCard() {
-    for (var i = 0; i < PicturesNumberPerCard; i++) {
+    for (var i = 0; i < PicturesPerCard; i++) {
         $(`#cardPicture${i}`).hide();
     }
     $('#playerCardPicture').hide();
@@ -97,7 +97,7 @@ function HidePlayerCard() {
 function ShowCenterCard() {
     $('#centerCardPicture').html("");
     let centerPicture = '';
-    for (let i = 0; i < PicturesNumberPerCard; i++)
+    for (let i = 0; i < PicturesPerCard; i++)
         centerPicture += `<button id="centerCardPicture${i}" class="img-picture cursor-default img-${CenterCard.values[i]}" value="${CenterCard.values[i]}"></button>`;
 
     $(centerPicture).appendTo('#centerCardPicture');
@@ -105,7 +105,7 @@ function ShowCenterCard() {
 }
 
 function HideCenterCard() {
-    for (let i = 0; i < PicturesNumberPerCard; i++)
+    for (let i = 0; i < PicturesPerCard; i++)
         $(`#centerCardPicture${i}`).hide();
     $('#centerCardPicture').hide();
 }
@@ -122,8 +122,13 @@ function ChangePlayerCard() {
     PlayerCards = PlayerCards.slice(1);
 }
 
-function ShowGameFinished(winnerPseudo) {
-    alert(`Partie gagnée par ${winnerPseudo}`);
+function ShowGameFinished(winner) {
+    const pseudosRankings = PseudosInGame.sort(ComparePseudosCardsNumber);
+
+    let text = '';
+    pseudosRankings.forEach(item => text += item.pseudo + " a " + item.cardsNumber + " carte(s)\n");
+
+    alert(`Partie gagnée par ${winner}\n${text}`);
     //todo show popup
 }
 
@@ -132,9 +137,10 @@ function ChangeCenterCard(card) {
 }
 
 function ShowNewPlayerInGame(pseudos) {
-    PseudosInGame = pseudos;
+    PseudosInGame = [];
+    pseudos.forEach(pseudo => PseudosInGame.push({ pseudo : pseudo, cardsNumber : 0}))
     let pseudosString = [];
-    PseudosInGame.forEach(pseudo => pseudosString.push(pseudo + "   "))
+    PseudosInGame.forEach(item => pseudosString.push(item.pseudo + " "))
     $('#pseudos').html(pseudosString);
 }
 
@@ -145,8 +151,28 @@ function ShowGameIdInfo() {
 }
 
 function LoadAllCardPictures() {
-    let totalPicturesNumber = PicturesNumberPerCard * PicturesNumberPerCard - PicturesNumberPerCard + 1;
+    let totalPicturesNumber = PicturesPerCard * PicturesPerCard - PicturesPerCard + 1;
     for (var i = 58; i < totalPicturesNumber; i++) {
         jQuery.get(window.location.href + `/Pictures/CardPictures/${i}.svg`)
     }
+}
+
+function InitPlayersInfos() {
+    PseudosInGame.forEach(item => item.cardsNumber = PlayerCards.length);
+}
+
+function ShowPlayersInfos() {
+    let pseudosString = [];
+    PseudosInGame.forEach(item => pseudosString.push(`${item.pseudo} (${item.cardsNumber}) `));
+    $('#pseudos').html(pseudosString);
+}
+
+function ShowPlayerPutDownCard(pseudo) {
+    const indexFound = PseudosInGame.findIndex(item => item.pseudo == pseudo);
+    PseudosInGame[indexFound].cardsNumber--;
+    ShowPlayersInfos();
+}
+
+function ComparePseudosCardsNumber(pseudo1, pseudo2) {
+    return pseudo1.cardsNumber - pseudo2.cardsNumber;
 }

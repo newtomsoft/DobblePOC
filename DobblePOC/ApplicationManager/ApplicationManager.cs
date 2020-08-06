@@ -2,24 +2,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace DobblePOC
 {
     public class ApplicationManager : IApplicationManager
     {
+        private const int GAME_ID_LENGTH = 4;
+
         public Dictionary<string, GameManager> GamesManager { get; }
 
-        public ApplicationManager() => GamesManager = new Dictionary<string, GameManager>();
+        public ApplicationManager() => GamesManager = new Dictionary<string, GameManager>(); // appelé par l'injecteur de dépendance
 
         public void FreeGameManager(string gameId) => GamesManager.Remove(gameId);
-
-        public int UseGameManager(string gameId, GameJoinMethod joinMethod = GameJoinMethod.Join, int picturesNumber = 0)
+       
+        public string CreateGameManager(int picturesPerCard)
         {
-            if (joinMethod == GameJoinMethod.Join && GamesManager.ContainsKey(gameId))
-                return GamesManager[gameId].PicturesNumber;
+            string gameId = RandomId();
+            GamesManager.Add(gameId, new GameManager(picturesPerCard));
+            return gameId;
+        }
 
-            GamesManager.Add(gameId, new GameManager(picturesNumber));
-            return picturesNumber;
+        public int JoinGameManager(string gameId)
+        {
+            if (GamesManager.ContainsKey(gameId))
+                return GamesManager[gameId].PicturesPerCard;
+            else
+                return 0;
         }
 
         public TouchResponse Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch)
@@ -46,6 +55,18 @@ namespace DobblePOC
                 }
                 return new TouchResponse { Status = TouchStatus.WrongValueTouch };
             }
+        }
+        private static string RandomId()
+        {
+            const string src = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
+            var sb = new StringBuilder();
+            Random Random = new Random();
+            for (var i = 0; i < GAME_ID_LENGTH; i++)
+            {
+                var c = src[Random.Next(0, src.Length)];
+                sb.Append(c);
+            }
+            return sb.ToString();
         }
     }
 }
