@@ -10,17 +10,19 @@ namespace DobblePOC
         public Dictionary<string, (int indexCurrentCard, List<DobbleCard> Cards)> PlayersGuids_Cards { get; private set; }
         public int PlayersNumber { get => PlayersGuids_Cards.Count; }
         public int PicturesPerCard { get; }
+        public List<string> PicturesNames { get; private set; }
         public object GameManagerLock { get; } = new object();
 
         private bool GameInProgress { get; set; }
         private bool GameFinished { get; set; }
         private DobbleCard CenterCard { get; set; }
 
-        public GameManager(int picturesNumber)
+        public GameManager(int picturesNumber, List<string> picturesNames)
         {
             PlayersGuids_Cards = new Dictionary<string, (int indexCurrentCard, List<DobbleCard> Cards)>();
             GameInProgress = false;
             PicturesPerCard = picturesNumber;
+            PicturesNames = picturesNames;
         }
 
         public DobbleCard GetCenterCard() => CenterCard;

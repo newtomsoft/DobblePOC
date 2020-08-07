@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DobbleCardsGameLib;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
 
 namespace DobblePOC.Controllers
 {
     public class GameController : Controller
     {
         private IApplicationManager ApplicationManager { get; }
+        private IWebHostEnvironment WebHostEnvironment { get; }
 
-        public GameController(IApplicationManager applicationManager) => ApplicationManager = applicationManager;
+        public GameController(IApplicationManager applicationManager, IWebHostEnvironment webHostEnvironment)
+        {
+            ApplicationManager = applicationManager;
+            WebHostEnvironment = webHostEnvironment;
+        }
 
         [HttpGet]
         public IActionResult Index()
@@ -23,7 +30,8 @@ namespace DobblePOC.Controllers
         [HttpPost]
         public IActionResult Create(int picturesPerCard)
         {
-            string gameId = ApplicationManager.CreateGameManager(picturesPerCard);
+            var picturesNames = GetRandomPicturesNames(picturesPerCard * picturesPerCard - picturesPerCard + 1);
+            string gameId = ApplicationManager.CreateGameManager(picturesPerCard, picturesNames);
             string playerGuid = AddNewPlayer(gameId);
             return new JsonResult(new { gameId, playerGuid, picturesPerCard });
         }
@@ -45,10 +53,12 @@ namespace DobblePOC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Start(string gameId)
+        public JsonResult Start(string gameId)
         {
             ApplicationManager.GamesManager[gameId].DistributeCards();
-            return new JsonResult(ApplicationManager.GamesManager[gameId].GetCenterCard());
+            var centerCard = ApplicationManager.GamesManager[gameId].GetCenterCard();
+            var picturesNames = ApplicationManager.GamesManager[gameId].PicturesNames;
+            return new JsonResult(new { centerCard, picturesNames });
         }
 
         [HttpGet]
@@ -72,5 +82,14 @@ namespace DobblePOC.Controllers
         }
 
         private string AddNewPlayer(string gameId) => ApplicationManager.GamesManager[gameId].GetNewPlayer();
+
+        public List<string> GetRandomPicturesNames(int picturesNumber)
+        {
+            var fullNames = Directory.GetFiles(Path.Combine(WebHostEnvironment.WebRootPath, "pictures", "cardPictures")).OrderBy(_ => Guid.NewGuid()).Take(picturesNumber).ToList();
+            var filesNames = new List<string>();
+            fullNames.ForEach(fullName => filesNames.Add(Path.GetFileName(fullName)));
+            return filesNames;
+
+        }
     }
 }

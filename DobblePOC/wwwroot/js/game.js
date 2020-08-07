@@ -13,7 +13,7 @@ var PicturesPerCard;
 var ThisPlayerGuid;
 var CenterCard;
 var DateEvent;
-
+var PicturesNames = [];
 
 function Init() {
     $('#createGameForm').submit(function () { CreateGame(); });
@@ -91,9 +91,10 @@ function HideCards() {
 function ShowPlayerCard() {
     $('#playerCardPicture').html("");
     let playerPicture = '';
-    for (let i = 0; i < PicturesPerCard; i++)
-        playerPicture += `<button id="playerCardPicture${i}" class="img-picture img-${PlayerCards[0].values[i]} pictureClick" value="${PlayerCards[0].values[i]}"></button>`;
-
+    for (let i = 0; i < PicturesPerCard; i++) {
+        let picturePathName = `${window.location.href}/pictures/cardPictures/${PicturesNames[PlayerCards[0].picturesIds[i]]}`;
+        playerPicture += `<button id="playerCardPicture${i}" class="img-picture pictureClick" style="background-image: url(${picturePathName})" value="${PlayerCards[0].picturesIds[i]}"></button>`;
+    }
     $(playerPicture).appendTo('#playerCardPicture');
     PictureClickSubscribe();
     $('#cardsNumber').html(`Il vous reste : ${PlayerCards.length} cartes`);
@@ -111,9 +112,10 @@ function HidePlayerCard() {
 function ShowCenterCard() {
     $('#centerCardPicture').html("");
     let centerPicture = '';
-    for (let i = 0; i < PicturesPerCard; i++)
-        centerPicture += `<button id="centerCardPicture${i}" class="img-picture cursor-default img-${CenterCard.values[i]}" value="${CenterCard.values[i]}"></button>`;
-
+    for (let i = 0; i < PicturesPerCard; i++) {
+        let picturePathName = `${window.location.href}/pictures/cardPictures/${PicturesNames[CenterCard.picturesIds[i]]}`;
+        centerPicture += `<button id="centerCardPicture${i}" class="img-picture cursor-default" style="background-image: url(${picturePathName})" value="${CenterCard.picturesIds[i]}"></button>`;
+    }
     $(centerPicture).appendTo('#centerCardPicture');
     $('#centerCardPicture').show();
 }

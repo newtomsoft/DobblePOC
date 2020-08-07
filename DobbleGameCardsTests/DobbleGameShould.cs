@@ -473,7 +473,7 @@ namespace DobbleGameTest
         {
             for (int firstCardIndex = 0; firstCardIndex < DobbleCards.Count; firstCardIndex++)
                 for (int secondCardIndex = firstCardIndex + 1; secondCardIndex < DobbleCards.Count; secondCardIndex++)
-                    Assert.Equal(valuesNumber - 1, DobbleCards[secondCardIndex].Values.Except(DobbleCards[firstCardIndex].Values).Count());
+                    Assert.Equal(valuesNumber - 1, DobbleCards[secondCardIndex].PicturesIds.Except(DobbleCards[firstCardIndex].PicturesIds).Count());
         }
 
         private static Dictionary<int, int> PresenceOfEachValue(int valuesNumber)
@@ -489,7 +489,7 @@ namespace DobbleGameTest
             }
             foreach (var DobbleCard in DobbleCards)
             {
-                foreach (var value in DobbleCard.Values)
+                foreach (var value in DobbleCard.PicturesIds)
                 {
                     presence[value]++;
                 }
@@ -507,10 +507,10 @@ namespace DobbleGameTest
                     {
                         for (int secondValueIndex = firstValueIndex + 1; secondValueIndex < valuesNumber; secondValueIndex++)
                         {
-                            var card1Value1 = DobbleCards[firstCardIndex].Values[firstValueIndex];
-                            var card1Value2 = DobbleCards[firstCardIndex].Values[secondValueIndex];
-                            var card2Value1 = DobbleCards[secondCardIndex].Values[firstValueIndex];
-                            var card2Value2 = DobbleCards[secondCardIndex].Values[secondValueIndex];
+                            var card1Value1 = DobbleCards[firstCardIndex].PicturesIds[firstValueIndex];
+                            var card1Value2 = DobbleCards[firstCardIndex].PicturesIds[secondValueIndex];
+                            var card2Value1 = DobbleCards[secondCardIndex].PicturesIds[firstValueIndex];
+                            var card2Value2 = DobbleCards[secondCardIndex].PicturesIds[secondValueIndex];
                             Assert.False(card1Value1 == card2Value1 && card1Value2 == card2Value2
                                       || card1Value1 == card2Value2 && card1Value2 == card2Value1);
                         }

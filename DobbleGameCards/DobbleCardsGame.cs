@@ -7,12 +7,11 @@ namespace DobbleCardsGameLib
 {
     public class DobbleCardsGame
     {
-        private readonly int _valuesPerCardNumber;
         public List<DobbleCard> Cards { get; private set; }
 
-        public DobbleCardsGame(int valuesPerCardNumber)
+        public DobbleCardsGame(int picturesPerCardNumber)
         {
-            _valuesPerCardNumber = valuesPerCardNumber;
+            GenerateAllCards(picturesPerCardNumber);
             ShuffleCards();
             ShufflePicturesCards();
         }
@@ -23,54 +22,54 @@ namespace DobbleCardsGameLib
                 card.ShufflePictures();             
         }
 
-        private void ShuffleCards() => Cards = GenerateAllCards(_valuesPerCardNumber).OrderBy(_ => Guid.NewGuid()).ToList();
+        private void ShuffleCards() => Cards = Cards.OrderBy(_ => Guid.NewGuid()).ToList();
 
-        private List<DobbleCard> GenerateAllCards(int valuesNumber) => GenerateCardsWithSameFirstValue(valuesNumber, valuesNumber - 1);
+        private void GenerateAllCards(int picturesPerCardNumber) => Cards = GenerateCardsWithSameFirstPicture(picturesPerCardNumber, picturesPerCardNumber - 1);
 
-        private List<DobbleCard> GenerateCardsWithSameFirstValue(int valuesNumber, int firstValue)
+        private List<DobbleCard> GenerateCardsWithSameFirstPicture(int picturesNumber, int firstPicture)
         {
             var dobbleCards = new List<DobbleCard>();
-            if (valuesNumber <= 0) return dobbleCards;
+            if (picturesNumber <= 0) return dobbleCards;
 
-            if (firstValue == 0)
+            if (firstPicture == 0)
             {
-                for (int i = 0; i < valuesNumber; i++)
+                for (int i = 0; i < picturesNumber; i++)
                     dobbleCards.Add(new DobbleCard(0));
 
-                int iValue = 0;
-                for (int iCard = 0; iCard < valuesNumber; iCard++)
+                int iPicture = 0;
+                for (int iCard = 0; iCard < picturesNumber; iCard++)
                 {
-                    for (int i = 1; i < valuesNumber; i++)
+                    for (int i = 1; i < picturesNumber; i++)
                     {
-                        iValue++;
-                        dobbleCards[iCard].Values.Add(iValue);
+                        iPicture++;
+                        dobbleCards[iCard].PicturesIds.Add(iPicture);
                     }
                 }
                 return dobbleCards;
             }
 
             List<DobbleCard> referenceCards;
-            if (firstValue == 1)
+            if (firstPicture == 1)
             {
-                referenceCards = GenerateCardsWithSameFirstValue(valuesNumber, firstValue - 1);
-                for (int i = 0; i < valuesNumber - 1; i++)
-                    dobbleCards.Add(new DobbleCard(firstValue));
+                referenceCards = GenerateCardsWithSameFirstPicture(picturesNumber, firstPicture - 1);
+                for (int i = 0; i < picturesNumber - 1; i++)
+                    dobbleCards.Add(new DobbleCard(firstPicture));
 
-                for (int iCard = 0; iCard < valuesNumber - 1; iCard++)
-                    for (int iValue = 0; iValue < valuesNumber - 1; iValue++)
-                        dobbleCards[iCard].Values.Add(referenceCards[iValue + 1].Values[iCard + 1]);
+                for (int iCard = 0; iCard < picturesNumber - 1; iCard++)
+                    for (int iPicture = 0; iPicture < picturesNumber - 1; iPicture++)
+                        dobbleCards[iCard].PicturesIds.Add(referenceCards[iPicture + 1].PicturesIds[iCard + 1]);
 
                 dobbleCards.AddRange(referenceCards);
                 return dobbleCards;
             }
 
-            referenceCards = GenerateCardsWithSameFirstValue(valuesNumber, firstValue - 1);
-            for (int i = 0; i < valuesNumber - 1; i++)
-                dobbleCards.Add(new DobbleCard(firstValue));
+            referenceCards = GenerateCardsWithSameFirstPicture(picturesNumber, firstPicture - 1);
+            for (int i = 0; i < picturesNumber - 1; i++)
+                dobbleCards.Add(new DobbleCard(firstPicture));
 
-            for (int iCard = 0; iCard < valuesNumber - 1; iCard++)
-                for (int iValue = 0; iValue < valuesNumber - 1; iValue++)
-                    dobbleCards[iCard].Values.Add(referenceCards[(iCard + iValue) % (valuesNumber - 1)].Values[iValue + 1]);
+            for (int iCard = 0; iCard < picturesNumber - 1; iCard++)
+                for (int iPicture = 0; iPicture < picturesNumber - 1; iPicture++)
+                    dobbleCards[iCard].PicturesIds.Add(referenceCards[(iCard + iPicture) % (picturesNumber - 1)].PicturesIds[iPicture + 1]);
 
             dobbleCards.AddRange(referenceCards);
             return dobbleCards;
@@ -78,19 +77,20 @@ namespace DobbleCardsGameLib
 
         public override string ToString()
         {
+            int picturesPerCardNumber = Cards[0].PicturesIds.Count;
             const string separator = "   ";
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < Cards.Count - _valuesPerCardNumber; i++)
+            for (int i = 0; i < Cards.Count - picturesPerCardNumber; i++)
             {
                 stringBuilder.Append(Cards[i].ToString());
-                if ((i + 1) % (_valuesPerCardNumber - 1) == 0)
+                if ((i + 1) % (picturesPerCardNumber - 1) == 0)
                     stringBuilder.Append("\n");
                 else
                     stringBuilder.Append(separator);
             }
             stringBuilder.Remove(stringBuilder.Length - "\n".Length, "\n".Length);
             stringBuilder.Append("\n");
-            for (int i = Cards.Count - _valuesPerCardNumber; i < Cards.Count; i++)
+            for (int i = Cards.Count - picturesPerCardNumber; i < Cards.Count; i++)
             {
                 stringBuilder.Append(Cards[i].ToString());
                 stringBuilder.Append(separator);

@@ -7,22 +7,26 @@ namespace DobbleCardsGameLib
 {
     public class DobbleCard
     {
-        public List<int> Values { get; private set; }
+        public List<int> PicturesIds { get; private set; } = new List<int>();
+        public List<string> PicturesPaths { get; private set; } = new List<string>();
 
-        public DobbleCard(int firstValue) => Values = new List<int> { firstValue };
-        public DobbleCard() => Values = new List<int>(); // don't remove this constructor used by binding in controller !
-        //public DobbleCard(List<int> values) => Values = values;
-        public void ShufflePictures() => Values = Values.OrderBy(_ => Guid.NewGuid()).ToList();
-        public static bool operator ==(DobbleCard dc1, DobbleCard dc2) => dc1.Values.SequenceEqual(dc2.Values);
+        public DobbleCard(int firstValue) => PicturesIds.Add(firstValue);
+        public DobbleCard() // don't remove this constructor used by binding in controller !
+        {
+            PicturesIds = new List<int>();
+            PicturesPaths = new List<string>();
+        }
+        public void ShufflePictures() => PicturesIds = PicturesIds.OrderBy(_ => Guid.NewGuid()).ToList();
+        public static bool operator ==(DobbleCard dc1, DobbleCard dc2) => dc1.PicturesIds.SequenceEqual(dc2.PicturesIds);
         public static bool operator !=(DobbleCard dc1, DobbleCard dc2) => !(dc1 == dc2);
-        public override bool Equals(object obj) => Values.Equals(obj);
-        public override int GetHashCode() => HashCode.Combine(Values);
+        public override bool Equals(object obj) => PicturesIds.Equals(obj);
+        public override int GetHashCode() => HashCode.Combine(PicturesIds);
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (var value in Values)
-                stringBuilder.Append(value + "-");
+            foreach (var pictureId in PicturesIds)
+                stringBuilder.Append(pictureId + "-");
 
             return stringBuilder.Remove(stringBuilder.Length - 1, 1).ToString();
         }

@@ -16,10 +16,10 @@ namespace DobblePOC
 
         public void FreeGameManager(string gameId) => GamesManager.Remove(gameId);
        
-        public string CreateGameManager(int picturesPerCard)
+        public string CreateGameManager(int picturesPerCard, List<string> picturesNames)
         {
             string gameId = RandomId();
-            GamesManager.Add(gameId, new GameManager(picturesPerCard));
+            GamesManager.Add(gameId, new GameManager(picturesPerCard, picturesNames));
             return gameId;
         }
 
@@ -41,7 +41,7 @@ namespace DobblePOC
                 if (centerCard != GamesManager[gameId].GetCenterCard())
                     return new TouchResponse { Status = TouchStatus.ToLate };
 
-                if (centerCard.Values.Any(value => value == valueTouch))
+                if (centerCard.PicturesIds.Any(value => value == valueTouch))
                 {
                     GamesManager[gameId].SetCenterCard(cardPlayed);
                     if (GamesManager[gameId].IncreaseCardsCurrentIndex(playerGuid))

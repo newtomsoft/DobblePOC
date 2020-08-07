@@ -7,7 +7,7 @@ namespace DobblePOC
     public interface IApplicationManager
     {
         public Dictionary<string, GameManager> GamesManager { get; }
-        public string CreateGameManager(int picturesPerCard);
+        public string CreateGameManager(int picturesPerCard, List<string> picturesNames);
         public int JoinGameManager(string gameId);
 
         void FreeGameManager(string gameId);

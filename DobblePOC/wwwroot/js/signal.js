@@ -5,7 +5,7 @@ function CallSignalR() {
     ConnectionHubGame.start().catch(function (err) { return console.error(err.toString()); });
     ConnectionHubGame.on("ReceivePlayersInGame", function (pseudos) { ReceivePlayersInGame(pseudos); });
     ConnectionHubGame.on("ReceiveAdditionalDeviceInGame", function (additionalDevices) { ReceiveAdditionalDeviceInGame(additionalDevices); });
-    ConnectionHubGame.on("ReceiveStartGame", function (centerCard) { ReceiveStartGame(centerCard); });
+    ConnectionHubGame.on("ReceiveStartGame", function (centerCard, picturesNames) { ReceiveStartGame(centerCard, picturesNames); });
     ConnectionHubGame.on("ReceiveChangeCenterCard", function (pseudo, centerCard) { ReceiveChangeCenterCard(pseudo, centerCard); });
     ConnectionHubGame.on("ReceiveGameFinished", function (pseudo) { ReceiveGameFinished(pseudo); });
 }
@@ -20,8 +20,8 @@ function SendAdditionalDeviceInGame() {
 };
 
 
-function SendStartGame(centerCard) {
-    ConnectionHubGame.invoke("HubStartGame", centerCard).catch(function (err) { return console.error(err.toString()); });
+function SendStartGame(centerCard, picturesNames) {
+    ConnectionHubGame.invoke("HubStartGame", centerCard, picturesNames).catch(function (err) { return console.error(err.toString()); });
 }
 
 function SendChangeCenterCard(centerCard) {
@@ -45,10 +45,11 @@ async function ReceiveAdditionalDeviceInGame(additionalDevices) {
     //todo autre chose ?
 }
 
-async function ReceiveStartGame(centerCard) {
+async function ReceiveStartGame(centerCard, picturesNames) {
+    PicturesNames = picturesNames;
     GetCenterCard(centerCard);
     if (ThisPlayerGuid !== undefined)
-        GetCards();
+        GetCardsPlayer();
     else {
         $('#startGame').hide();
         $('#startGameWait').hide();

@@ -35,7 +35,7 @@ function StartGame() {
         url: '/Game/Start',
         type: 'POST',
         data: { gameId: GameId },
-        success: function (centerCard) { CallbackStartGame(centerCard); },
+        success: function (data) { CallbackStartGame(data); },
     });
 }
 
@@ -50,11 +50,11 @@ function GetCenterCard(card) {
         CenterCard = card;
 }
 
-function GetCards() {
+function GetCardsPlayer() {
     $.ajax({
         url: '/Game/GetCardsPlayer',
         data: { gameId: GameId, playerGuid: ThisPlayerGuid },
-        success: function (data) { CallbackGetCards(data); },
+        success: function (data) { CallbackGetCardsPlayer(data); },
     });
 }
 

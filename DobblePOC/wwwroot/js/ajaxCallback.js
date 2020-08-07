@@ -35,11 +35,11 @@ function CallbackGetCenterCard(data) {
     CenterCard = data;
 }
 
-function CallbackStartGame(centerCard) {
-    SendStartGame(centerCard);
+function CallbackStartGame(data) {
+    SendStartGame(data.centerCard, data.picturesNames);
 }
 
-function CallbackGetCards(data) {
+function CallbackGetCardsPlayer(data) {
     PlayerCards = data;
     $('#startGame').hide();
     $('#startGameWait').hide();
