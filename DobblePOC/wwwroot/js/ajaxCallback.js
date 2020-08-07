@@ -3,10 +3,17 @@
     PicturesPerCard = data.picturesPerCard;
     SendPlayerInGame();
     ShowOrHideSections(mode);
-    PlayerGuid = data.playerGuid;
-    PicturesPerCard = data.picturesPerCard;
-    LoadAllCardPictures();
+    ThisPlayerGuid = data.playerGuid;
+    PreloadAllCardPictures();
     ShowGameIdInfo();
+}
+
+function CallbackJoinGameAsAdditionalDevice(data) {
+    ThisAdditionalDevice = data.additionalDevice;
+    PicturesPerCard = data.picturesPerCard;
+    SendAdditionalDeviceInGame();
+    ShowOrHideSections("additionalDevice");
+    PreloadAllCardPictures();
 }
 
 function CallbackTouch(data) {
@@ -16,7 +23,7 @@ function CallbackTouch(data) {
         SendChangeCenterCard(data.centerCard);
     }
     else if (data.status === 2) {// game finished
-        SendGameFinished(Pseudo);
+        SendGameFinished(ThisPseudo);
     }
     else {
         let delayInMilliseconds = 1000;

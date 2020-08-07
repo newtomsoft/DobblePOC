@@ -22,27 +22,34 @@
     <form id="joinGameForm" action="javascript:void(0);">
         <div class="form-group">
             <label class="control-label">Votre pseudo</label>
-            <input id="pseudoJoinGame" name="pseudoJoinGame" class="form-control" type="text" value="" required />
+            <input id="pseudoJoinGame" class="form-control" type="text" value="" required />
         </div>
         <div class="form-group">
             <label class="control-label">Identifiant de la partie</label>
-            <input id="gameIdJoinGame" name="gameId" class="form-control" type="text" value="" required />
+            <input id="gameIdJoinGame" class="form-control" type="text" value="" required />
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Rejoindre la partie" />
         </div>
     </form>
+    @* todo : appareil additionel à ajouter en dernier tel que codé *@
+    @*<h3>Ajouter un appareil additionnel </h3>
+    <form id="joinGameAsAdditionalDeviceForm" action="javascript:void(0);">
+        <div class="form-group">
+            <label class="control-label">Identifiant de la partie</label>
+            <input id="gameIdJoinGameAsAdditionalDevice" class="form-control" type="text" value="" required />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Ajouter l'appareil additionelle" />
+        </div>
+    </form>*@
 </section>
 
 <section id="gameSection" style="display:none">
     <div id="gameIdInfo">
         <h3></h3>
     </div>
-    <div>
-        <h4>Joueurs présents :</h4>
-        <div id="pseudos"></div>
-    </div>
-
+    <div id="pseudos"></div>
     <div id="startGame">
         <button id="startGameButton" class="btn-outline-primary">Commencer la partie !</button>
     </div>

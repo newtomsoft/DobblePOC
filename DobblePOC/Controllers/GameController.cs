@@ -37,11 +37,11 @@ namespace DobblePOC.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddCenterCardsDevice(string gameId)
+        public JsonResult JoinAsAdditionalDevice(string gameId)
         {
             int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
-            string centerCardsDeviceGuid = ApplicationManager.GamesManager[gameId].GetCenterCardsDevice();
-            return new JsonResult(new { centerCardsDeviceGuid, picturesPerCard });
+            string additionalDevice = ApplicationManager.GamesManager[gameId].GetCenterCardsDevice();
+            return new JsonResult(new { additionalDevice, picturesPerCard });
         }
 
         [HttpPost]
