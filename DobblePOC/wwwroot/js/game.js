@@ -1,8 +1,14 @@
 ﻿$(document).ready(async function () {
+    Url = new URL(window.location.href);
+    GameId = Url.searchParams.get("game");
+    if (GameId !== null)
+        ModeInvitGame = true;
     CallSignalR();
     Init();
 });
 
+var Url
+var ModeInvitGame
 var GameId;
 var ThisPseudo;
 var PseudosInGame = [];
@@ -20,6 +26,7 @@ var Decounter;
 function Init() {
     $('#createGameForm').submit(function () { CreateGame(); });
     $('#joinGameForm').submit(function () { JoinGame(); });
+    $('#invitGameForm').submit(function () { InvitGame(); });
     $('#joinGameAsAdditionalDeviceForm').submit(function () { JoinGameAsAdditionalDevice(); });
     $('#startGameButton').click(function () { StartGame(); });
     ShowOrHideSections();
@@ -36,16 +43,34 @@ function PictureClickUnsubscribe() {
 function ShowOrHideSections(mode) {
     if (mode === "additionalDevice") {
         HideWelcomeSection();
+        HideInvitGameSection();
         ShowGameSection(mode);
     }
-    else if (ThisPseudo === undefined || GameId === undefined) {
+    else if (ModeInvitGame !== undefined) {
+        ModeInvitGame = undefined;
         HideGameSection();
+        HideWelcomeSection();
+        ShowInvitGameSection();
+    }
+    else if (ThisPseudo === undefined || GameId === null) {
+        HideGameSection();
+        HideInvitGameSection();
         ShowWelcomeSection();
     }
     else {
         HideWelcomeSection();
+        HideInvitGameSection();
         ShowGameSection(mode);
     }
+}
+
+function ShowInvitGameSection() {
+    $('#invitGameSectionTitle').html(`Rejoindre la partie ${GameId}`);
+    $("#invitGameSection").show();
+}
+
+function HideInvitGameSection() {
+    $("#invitGameSection").hide();
 }
 
 function ShowWelcomeSection() {
@@ -116,7 +141,8 @@ function PreparePlayerCard() {
     $('#playerCardPicture').html("");
     let playerPicture = '';
     for (let i = 0; i < PicturesPerCard; i++) {
-        let picturePathName = `${window.location.href}/pictures/cardPictures/${PicturesNames[PlayerCards[0].picturesIds[i]]}`;
+        let url = Url.href.replace(Url.search, '');
+        let picturePathName = `${url}/pictures/cardPictures/${PicturesNames[PlayerCards[0].picturesIds[i]]}`;
         playerPicture += `<button id="playerCardPicture${i}" class="img-picture pictureClick" style="background-image: url(${picturePathName})" value="${PlayerCards[0].picturesIds[i]}"></button>`;
     }
     $(playerPicture).appendTo('#playerCardPicture');
@@ -135,7 +161,8 @@ function PrepareCenterCard() {
     $('#centerCardPicture').html("");
     let centerPicture = '';
     for (let i = 0; i < PicturesPerCard; i++) {
-        let picturePathName = `${window.location.href}/pictures/cardPictures/${PicturesNames[CenterCard.picturesIds[i]]}`;
+        let url = Url.href.replace(Url.search, '');
+        let picturePathName = `${url}/pictures/cardPictures/${PicturesNames[CenterCard.picturesIds[i]]}`;
         centerPicture += `<button id="centerCardPicture${i}" class="img-picture cursor-default" style="background-image: url(${picturePathName})" value="${CenterCard.picturesIds[i]}"></button>`;
     }
     $(centerPicture).appendTo('#centerCardPicture');
@@ -181,14 +208,20 @@ function ShowPlayersInGame(pseudos) {
 
 function ShowGameIdInfo() {
     if (ThisPlayerGuid == "")
-        $('#gameIdInfo').html(`<h3>la partie n° ${GameId} n'est plus disponible</h3>`);
-    $('#gameIdInfo').html(`<h3>Partie n° ${GameId}</h3>`);
+        $('#gameIdInfo').html(`<h3>La partie n° ${GameId} n'est plus disponible</h3>`);
+    let url = Url
+    if (url.searchParams.get("game" === null))
+        url.searchParams.append('game', GameId);
+    else
+        url.searchParams.set('game', GameId);
+    $('#gameIdInfo').html(`<h3>Partie n° <a href="${url.href}">${GameId}</a></h3>`);
 }
 
 function PreloadAllCardPictures() {
     let totalPicturesNumber = PicturesPerCard * PicturesPerCard - PicturesPerCard + 1;
+    let url = Url.href.replace(Url.search, '');
     for (var i = 0; i < totalPicturesNumber; i++) {
-        jQuery.get(window.location.href + `/pictures/cardPictures/${PicturesNames[i]}`)
+        jQuery.get(url + `/pictures/cardPictures/${PicturesNames[i]}`)
     }
 }
 

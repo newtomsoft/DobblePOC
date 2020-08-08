@@ -88,7 +88,6 @@ namespace DobblePOC.Controllers
             var filesNames = new List<string>();
             fullNames.ForEach(fullName => filesNames.Add(Path.GetFileName(fullName)));
             return filesNames;
-
         }
     }
 }

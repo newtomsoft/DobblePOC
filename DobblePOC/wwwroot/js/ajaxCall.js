@@ -20,6 +20,16 @@ function JoinGame() {
     });
 }
 
+function InvitGame() {
+    ThisPseudo = $('#pseudoInvitGame').val();
+    $.ajax({
+        url: '/Game/Join',
+        type: 'POST',
+        data: { gameId: GameId },
+        success: function (data) { CallbackCreateOrJoinGame(data); },
+    });
+}
+
 function JoinGameAsAdditionalDevice() {
     GameId = $('#gameIdJoinGameAsAdditionalDevice').val().toUpperCase();
     $.ajax({
