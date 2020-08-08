@@ -5,7 +5,7 @@ function CreateGame() {
         url: '/Game/Create',
         type: 'POST',
         data: { picturesPerCard: PicturesPerCard },
-        success: function (data) { CallbackCreateOrJoinGame(data, "create"); },
+        success: function (data) { CallbackCreateOrJoinGame(data); },
     });
 }
 
@@ -16,7 +16,7 @@ function JoinGame() {
         url: '/Game/Join',
         type: 'POST',
         data: { gameId: GameId },
-        success: function (data) { CallbackCreateOrJoinGame(data, "join"); },
+        success: function (data) { CallbackCreateOrJoinGame(data); },
     });
 }
 

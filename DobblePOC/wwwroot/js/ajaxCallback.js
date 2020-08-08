@@ -1,8 +1,7 @@
-﻿function CallbackCreateOrJoinGame(data, mode) {
+﻿function CallbackCreateOrJoinGame(data) {
     GameId = data.gameId;
     PicturesPerCard = data.picturesPerCard;
     SendPlayerInGame();
-    ShowOrHideSections(mode);
     ThisPlayerGuid = data.playerGuid;
     PreloadAllCardPictures();
     ShowGameIdInfo();

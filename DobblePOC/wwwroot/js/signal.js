@@ -35,6 +35,7 @@ function SendGameFinished() {
 //Receive
 async function ReceivePlayersInGame(pseudos) {
     ShowPlayersInGame(pseudos);
+    ShowOrHideSections();
 }
 
 async function ReceiveAdditionalDeviceInGame(additionalDevices) {

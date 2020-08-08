@@ -62,11 +62,12 @@ function ShowGameSection(mode) {
         $('#startGameWait').hide();
         $('#playerCard').hide();
     }
-    else if (mode === "join") {
+    else if (PseudosInGame[0].pseudo !== ThisPseudo) {
         $('#startGame').hide();
+        $('#startGameWait').html(`<b>En attente du lancement de la partie par ${PseudosInGame[0].pseudo}</b>`);
         $('#startGameWait').show();
     }
-    else if (mode === "create") {
+    else {
         $('#startGame').show();
         $('#startGameWait').hide();
     }
