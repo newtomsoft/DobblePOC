@@ -14,8 +14,8 @@ var ThisPlayerGuid;
 var CenterCard;
 var DateEvent;
 var PicturesNames = [];
-var TimerBeforeLunchGame;
-var CountDecounter;
+var IntervalDecounterLunchGame;
+var Decounter;
 
 function Init() {
     $('#createGameForm').submit(function () { CreateGame(); });
@@ -187,8 +187,8 @@ function ShowGameIdInfo() {
 
 function PreloadAllCardPictures() {
     let totalPicturesNumber = PicturesPerCard * PicturesPerCard - PicturesPerCard + 1;
-    for (var i = 58; i < totalPicturesNumber; i++) {
-        jQuery.get(window.location.href + `/pictures/cardPictures/${i}.svg`)
+    for (var i = 0; i < totalPicturesNumber; i++) {
+        jQuery.get(window.location.href + `/pictures/cardPictures/${PicturesNames[i]}`)
     }
 }
 
@@ -227,14 +227,14 @@ function LunchGame() {
 }
 
 function DecounterLunchGame() {
-    ShowDecounter(CountDecounter);
-    if (CountDecounter === 0) {
+    ShowDecounter(Decounter);
+    if (Decounter === 0) {
         DomFlashDecounter();
-        setTimeout(function () { DomRemoveDecounter(); }, 1000);
-        clearInterval(TimerBeforeLunchGame);
+        setTimeout(function () { DomRemoveDecounter(); }, 1200);
+        clearInterval(IntervalDecounterLunchGame);
         LunchGame();
     }
-    CountDecounter--;
+    Decounter--;
 }
 
 function ShowDecounter(countNumber) {
@@ -247,7 +247,7 @@ function DomAddDecounter() {
 }
 
 function DomFlashDecounter() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
         $('#decounter').fadeToggle(70, function () {
             $(this).fadeToggle(70);
         });

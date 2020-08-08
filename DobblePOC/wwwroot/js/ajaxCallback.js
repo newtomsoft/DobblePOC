@@ -3,7 +3,6 @@
     PicturesPerCard = data.picturesPerCard;
     SendPlayerInGame();
     ThisPlayerGuid = data.playerGuid;
-    PreloadAllCardPictures();
     ShowGameIdInfo();
 }
 
@@ -12,7 +11,20 @@ function CallbackJoinGameAsAdditionalDevice(data) {
     PicturesPerCard = data.picturesPerCard;
     SendAdditionalDeviceInGame();
     ShowOrHideSections("additionalDevice");
-    PreloadAllCardPictures();
+}
+
+function CallbackStartGame(data) {
+    SendStartGame(data.centerCard, data.picturesNames);
+}
+
+function CallbackGetCenterCard(data) {
+    CenterCard = data;
+}
+
+function CallbackGetCardsPlayer(data) {
+    PlayerCards = data;
+    $('#startGame').hide();
+    $('#startGameWait').hide();
 }
 
 function CallbackTouch(data) {
@@ -28,18 +40,4 @@ function CallbackTouch(data) {
         let delayInMilliseconds = 1000;
         setTimeout(function () { PictureClickSubscribe(); }, delayInMilliseconds);
     }
-}
-
-function CallbackGetCenterCard(data) {
-    CenterCard = data;
-}
-
-function CallbackStartGame(data) {
-    SendStartGame(data.centerCard, data.picturesNames);
-}
-
-function CallbackGetCardsPlayer(data) {
-    PlayerCards = data;
-    $('#startGame').hide();
-    $('#startGameWait').hide();
 }

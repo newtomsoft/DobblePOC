@@ -41,20 +41,25 @@ async function ReceivePlayersInGame(pseudos) {
 async function ReceiveAdditionalDeviceInGame(additionalDevices) {
     AdditionalDevices = additionalDevices;
     $('#centerCard').hide();
-    //ShowAdditionalDevicesInGame(additionalDevices);
-    //todo autre chose ?
+    //todo ShowAdditionalDevicesInGame(additionalDevices);
+    //autre chose ?
 }
 
 async function ReceiveStartGame(centerCard, picturesNames) {
-    PicturesNames = picturesNames;
-    GetCenterCard(centerCard);
     if (ThisPlayerGuid !== undefined) {
-        GetCardsPlayer();
-        CountDecounter = 3;
+        Decounter = 3;
         DomAddDecounter();
-        TimerBeforeLunchGame = setInterval(function () { DecounterLunchGame(); }, 1000);
+        DecounterLunchGame();
+        IntervalDecounterLunchGame = setInterval(function () { DecounterLunchGame(); }, 1000);
+        GetCardsPlayer();
+        PicturesNames = picturesNames;
+        PreloadAllCardPictures();
+        GetCenterCard(centerCard);
     }
-    else {
+    else { //todo IntervalDecounterLunchGame idem au dessus
+        PicturesNames = picturesNames;
+        PreloadAllCardPictures();
+        GetCenterCard(centerCard);
         $('#startGame').hide();
         $('#startGameWait').hide();
         PrepareCenterCard();
