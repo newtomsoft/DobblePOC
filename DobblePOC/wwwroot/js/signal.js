@@ -21,15 +21,15 @@ function SendAdditionalDeviceInGame() {
 
 
 function SendStartGame(centerCard, picturesNames) {
-    ConnectionHubGame.invoke("HubStartGame", centerCard, picturesNames).catch(function (err) { return console.error(err.toString()); });
+    ConnectionHubGame.invoke("HubStartGame", GameId, centerCard, picturesNames).catch(function (err) { return console.error(err.toString()); });
 }
 
 function SendChangeCenterCard(centerCard) {
-    ConnectionHubGame.invoke("HubChangeCenterCard", ThisPseudo, centerCard).catch(function (err) { return console.error(err.toString()); });
+    ConnectionHubGame.invoke("HubChangeCenterCard", GameId, ThisPseudo, centerCard).catch(function (err) { return console.error(err.toString()); });
 };
 
 function SendGameFinished() {
-    ConnectionHubGame.invoke("HubGameFinished", ThisPseudo).catch(function (err) { return console.error(err.toString()); });
+    ConnectionHubGame.invoke("HubGameFinished", GameId, ThisPseudo).catch(function (err) { return console.error(err.toString()); });
 };
 
 //Receive

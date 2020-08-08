@@ -32,11 +32,11 @@ namespace SignalR.Hubs
             await Clients.OthersInGroup(gameId).SendAsync("ReceiveAdditionalDeviceInGame", GameId_AdditionalDevices[gameId]);
         }
 
-        public async Task HubStartGame(object centerCard, object picturesNames) => await Clients.All.SendAsync("ReceiveStartGame", centerCard, picturesNames);
+        public async Task HubStartGame(string gameId, object centerCard, object picturesNames) => await Clients.Group(gameId).SendAsync("ReceiveStartGame", centerCard, picturesNames);
 
-        public async Task HubChangeCenterCard(string pseudo, object centerCard) => await Clients.All.SendAsync("ReceiveChangeCenterCard", pseudo, centerCard);
+        public async Task HubChangeCenterCard(string gameId, string pseudo, object centerCard) => await Clients.Group(gameId).SendAsync("ReceiveChangeCenterCard", pseudo, centerCard);
 
-        public async Task HubGameFinished(string pseudo) => await Clients.All.SendAsync("ReceiveGameFinished", pseudo);
+        public async Task HubGameFinished(string gameId, string pseudo) => await Clients.Group(gameId).SendAsync("ReceiveGameFinished", pseudo);
 
     }
 }
