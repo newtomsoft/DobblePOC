@@ -41,33 +41,38 @@ async function ReceiveAdditionalDeviceInGame(additionalDevices) {
     AdditionalDevices = additionalDevices;
     $('#centerCard').hide();
     //ShowAdditionalDevicesInGame(additionalDevices);
-
     //todo autre chose ?
 }
 
 async function ReceiveStartGame(centerCard, picturesNames) {
     PicturesNames = picturesNames;
     GetCenterCard(centerCard);
-    if (ThisPlayerGuid !== undefined)
+    if (ThisPlayerGuid !== undefined) {
         GetCardsPlayer();
+        CountDecounter = 3;
+        DomAddDecounter();
+        TimerBeforeLunchGame = setInterval(function () { DecounterLunchGame(); }, 1000);
+    }
     else {
         $('#startGame').hide();
         $('#startGameWait').hide();
-        ShowCenterCard();
-        InitPlayersInfos();
+        PrepareCenterCard();
+        PreparePlayersInfos();
         ShowPlayersInfos();
     }
 }
 
 async function ReceiveChangeCenterCard(pseudo, centerCard) {
     ChangeCenterCard(centerCard);
-    ShowCards();
+    PrepareCards();
+    ShowCards()
     ShowPlayerPutDownCard(pseudo);
 }
 
 async function ReceiveGameFinished(pseudo) {
     ShowPlayerPutDownCard(pseudo);
-    ShowCards();
+    PrepareCards();
+    ShowCards()
     ShowGameFinished(pseudo);
 }
 

@@ -43,7 +43,4 @@ function CallbackGetCardsPlayer(data) {
     PlayerCards = data;
     $('#startGame').hide();
     $('#startGameWait').hide();
-    ShowCards();
-    InitPlayersInfos();
-    ShowPlayersInfos();
 }
