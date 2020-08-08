@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DobbleCardsGameLib;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DobbleCardsGameLib;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 
 namespace DobblePOC.Controllers

@@ -19,7 +19,7 @@ namespace DobbleCardsGameLib
         private void ShufflePicturesCards()
         {
             foreach (var card in Cards)
-                card.ShufflePictures();             
+                card.ShufflePictures();
         }
 
         private void ShuffleCards() => Cards = Cards.OrderBy(_ => Guid.NewGuid()).ToList();

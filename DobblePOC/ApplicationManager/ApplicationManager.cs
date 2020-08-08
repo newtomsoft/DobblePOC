@@ -15,7 +15,7 @@ namespace DobblePOC
         public ApplicationManager() => GamesManager = new Dictionary<string, GameManager>(); // appelé par l'injecteur de dépendance
 
         public void FreeGameManager(string gameId) => GamesManager.Remove(gameId);
-       
+
         public string CreateGameManager(int picturesPerCard, List<string> picturesNames)
         {
             string gameId = RandomId();
