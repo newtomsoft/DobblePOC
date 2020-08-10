@@ -1,8 +1,7 @@
 ﻿$(document).ready(async function () {
     Url = new URL(window.location.href);
     GameId = Url.searchParams.get("game");
-    if (GameId !== null)
-        ModeInvitGame = true;
+    if (GameId !== null) ModeInvitGame = true;
     CallSignalR();
     Init();
 });
@@ -27,18 +26,15 @@ function Init() {
     $('#createGameForm').submit(function () { CreateGame(); });
     $('#joinGameForm').submit(function () { JoinGame(); });
     $('#invitGameForm').submit(function () { InvitGame(); });
-    $('#joinGameAsAdditionalDeviceForm').submit(function () { JoinGameAsAdditionalDevice(); });
+    //$('#joinGameAsAdditionalDeviceForm').submit(function () { JoinGameAsAdditionalDevice(); }); // voir pour autre sprint si principe retenu
+    $('#joinDeviceGameForm').submit(function () { JoinGameAsAdditionalDevice(); });
     $('#startGameButton').click(function () { StartGame(); });
     ShowOrHideSections();
 }
 
-function PictureClickSubscribe() {
-    $('.pictureClick').click(function () { TouchCard(this.attributes['value'].value); });
-}
+function PictureClickSubscribe() { $('.pictureClick').click(function () { TouchCard(this.attributes['value'].value); }); }
 
-function PictureClickUnsubscribe() {
-    $('.pictureClick').off("click");
-}
+function PictureClickUnsubscribe() { $('.pictureClick').off("click"); }
 
 function ShowOrHideSections(mode) {
     if (mode === "additionalDevice") {
@@ -69,17 +65,11 @@ function ShowInvitGameSection() {
     $("#invitGameSection").show();
 }
 
-function HideInvitGameSection() {
-    $("#invitGameSection").hide();
-}
+function HideInvitGameSection() { $("#invitGameSection").hide(); }
 
-function ShowWelcomeSection() {
-    $("#createJoinGameSection").show();
-}
+function ShowWelcomeSection() { $("#createJoinGameSection").show(); }
 
-function HideWelcomeSection() {
-    $("#createJoinGameSection").hide();
-}
+function HideWelcomeSection() { $("#createJoinGameSection").hide(); }
 
 function ShowGameSection(mode) {
     if (mode === "additionalDevice") {
@@ -99,16 +89,43 @@ function ShowGameSection(mode) {
     $("#gameSection").show();
 }
 
-function HideGameSection() {
-    $("#gameSection").hide();
-}
+function HideGameSection() { $("#gameSection").hide(); }
 
 function PrepareCards() {
-    PrepareCenterCard();
+    PrepareCard("centerCard");
     PrepareOpponentsCards();
     if (ThisAdditionalDevice === undefined) {
-        PreparePlayerCard();
+        PrepareCard("playerCard", true);
     }
+}
+
+function PrepareCard(cardType, click) {
+    let card;
+    let domPictureId;
+    if (cardType === "centerCard") {
+        card = CenterCard;
+        domPictureId = 'centerCardPicture';
+    }
+    else if (cardType === "playerCard") {
+        card = PlayerCards[0];
+        domPictureId = 'playerCardPicture';
+    }
+    else {
+        console.error("erreur sur le type de carte à afficher")
+        return;
+    }
+    let classClick = click ? 'pictureClick' : '';
+    let cursor = click ? 'cursor-click' : '';
+    $(`#${domPictureId}`).html("");
+    let picture = '';
+    for (let i = 0; i < PicturesPerCard; i++) {
+        let url = Url.href.replace(Url.search, '').replace(Url.hash, '');;
+        let pictureUrl = `'${url}/pictures/cardPictures/${PicturesNames[card.picturesIds[i]]}'`;
+        picture += `<section id="${domPictureId}${i}" class="img-picture ${classClick} ${cursor}" style="background-image: url(${pictureUrl})" value="${card.picturesIds[i]}"></section>`;
+    }
+    $(picture).appendTo(`#${domPictureId}`);
+    if (cardType === "playerCard")
+        PictureClickSubscribe();
 }
 
 function ShowCards() {
@@ -116,38 +133,19 @@ function ShowCards() {
     ShowOpponentsCards();
     if (ThisAdditionalDevice === undefined) {
         ShowPlayerCard();
+        ShowPlayerCardsNumber();
+        ScrollTo('centerCard');
     }
 }
 
-function ShowCenterCard() {
-    $('#centerCardPicture').show();
-}
-
-function ShowOpponentsCards() {
-    //todo
-}
-
-function ShowPlayerCard() {
-    $('#playerCardPicture').show();
-}
+function ShowCenterCard() { $('#centerCardPicture').show(); }
+function ShowPlayerCard() { $('#playerCardPicture').show(); }
+function ShowOpponentsCards() { ; } //todo
 
 function HideCards() {
     HidePlayerCard();
     HideCenterCard();
     HideOpponentsCards();
-}
-
-function PreparePlayerCard() {
-    $('#playerCardPicture').html("");
-    let playerPicture = '';
-    for (let i = 0; i < PicturesPerCard; i++) {
-        let url = Url.href.replace(Url.search, '');
-        let picturePathName = `${url}/pictures/cardPictures/${PicturesNames[PlayerCards[0].picturesIds[i]]}`;
-        playerPicture += `<button id="playerCardPicture${i}" class="img-picture pictureClick" style="background-image: url(${picturePathName})" value="${PlayerCards[0].picturesIds[i]}"></button>`;
-    }
-    $(playerPicture).appendTo('#playerCardPicture');
-    PictureClickSubscribe();
-    $('#cardsNumber').html(`Il vous reste : ${PlayerCards.length} cartes`);
 }
 
 function HidePlayerCard() {
@@ -157,34 +155,23 @@ function HidePlayerCard() {
     $('#playerCardPicture').hide();
 }
 
-function PrepareCenterCard() {
-    $('#centerCardPicture').html("");
-    let centerPicture = '';
-    for (let i = 0; i < PicturesPerCard; i++) {
-        let url = Url.href.replace(Url.search, '');
-        let picturePathName = `${url}/pictures/cardPictures/${PicturesNames[CenterCard.picturesIds[i]]}`;
-        centerPicture += `<button id="centerCardPicture${i}" class="img-picture cursor-default" style="background-image: url(${picturePathName})" value="${CenterCard.picturesIds[i]}"></button>`;
-    }
-    $(centerPicture).appendTo('#centerCardPicture');
-}
-
 function HideCenterCard() {
     for (let i = 0; i < PicturesPerCard; i++)
         $(`#centerCardPicture${i}`).hide();
     $('#centerCardPicture').hide();
 }
 
-function PrepareOpponentsCards() {
-    //todo
-}
+function HideOpponentsCards() { ; }//todo
 
-function HideOpponentsCards() {
-    //todo
-}
+function PrepareOpponentsCards() { ; } //todo
+
 
 function ChangePlayerCard() {
     PlayerCards = PlayerCards.slice(1);
+    ShowPlayerCardsNumber();
 }
+
+function ShowPlayerCardsNumber() { $('#cardsNumber').html(`Il vous reste : ${PlayerCards.length} cartes`); }
 
 function ShowGameFinished(winner) {
     const pseudosRankings = PseudosInGame.sort(ComparePseudosCardsNumber);
@@ -194,9 +181,7 @@ function ShowGameFinished(winner) {
     //todo show popup
 }
 
-function ChangeCenterCard(card) {
-    CenterCard = card;
-}
+function ChangeCenterCard(card) { CenterCard = card; }
 
 function ShowPlayersInGame(pseudos) {
     PseudosInGame = [];
@@ -207,22 +192,29 @@ function ShowPlayersInGame(pseudos) {
 }
 
 function ShowGameIdInfo() {
-    if (ThisPlayerGuid == "")
+    if (ThisPlayerGuid == "") {
         $('#gameIdInfo').html(`<h3>La partie n° ${GameId} n'est plus disponible</h3>`);
+        return;
+    }
     let url = Url
     if (url.searchParams.get("game" === null))
         url.searchParams.append('game', GameId);
     else
         url.searchParams.set('game', GameId);
-    $('#gameIdInfo').html(`<h3>Partie n° <a href="${url.href}">${GameId}</a></h3>`);
+    let whatsappLink = `https://api.whatsapp.com/send?text=Je viens de lancer une nouvelle partie de Dobble. Voici le lien : ${url.href}`;
+    $('#gameIdInfo').html(`<h3>Partie n° <a href="${url.href}">${GameId}</a> <a href="${whatsappLink}" target="_blank"><img alt="Whats'app" src="pictures/others/whatsApp.svg" width="30" height="30"</a></h3>`);
 }
 
 function PreloadAllCardPictures() {
     let totalPicturesNumber = PicturesPerCard * PicturesPerCard - PicturesPerCard + 1;
     let url = Url.href.replace(Url.search, '');
+    //for (var i = 0; i < totalPicturesNumber; i++)
+    //    jQuery.get(url + `/pictures/cardPictures/${PicturesNames[i]}`)
+    let pics = [];
     for (var i = 0; i < totalPicturesNumber; i++) {
-        jQuery.get(url + `/pictures/cardPictures/${PicturesNames[i]}`)
+        pics[i] = `${url}pictures/cardPictures/${PicturesNames[i]}`;
     }
+    $.preload(pics, { ordered: false });
 }
 
 function PreparePlayersInfos() {
@@ -244,13 +236,9 @@ function ShowPlayerPutDownCard(pseudo) {
     ShowPlayersInfos();
 }
 
-function ComparePseudosCardsNumber(pseudo1, pseudo2) {
-    return pseudo1.cardsNumber - pseudo2.cardsNumber;
-}
+function ComparePseudosCardsNumber(pseudo1, pseudo2) { return pseudo1.cardsNumber - pseudo2.cardsNumber; }
 
-function ShowAdditionalDevicesInGame(additionalDevices) {
-
-}
+function ShowAdditionalDevicesInGame(additionalDevices) { ; } //todo
 
 function LunchGame() {
     PrepareCards();
@@ -270,15 +258,14 @@ function DecounterLunchGame() {
     Decounter--;
 }
 
+function DomAddDecounter() { $('<div id="decounter"></div>').appendTo('#gameSection'); }
+function DomRemoveDecounter() { $('#decounter').remove(); }
 function ShowDecounter(countNumber) {
-    $('#decounter').removeClass();
-    $('#decounter').addClass(`decounter${countNumber}`);
+    if (countNumber > 3) $('#decounter').attr('style', 'color:green;');
+    else if (countNumber > 1) $('#decounter').attr('style', 'color:orange;');
+    else $('#decounter').attr('style', 'color:red;');
+    $('#decounter').html(countNumber);
 }
-
-function DomAddDecounter() {
-    $('<div id="decounter"></div>').appendTo('#gameSection');
-}
-
 function DomFlashDecounter() {
     for (let i = 0; i < 15; i++) {
         $('#decounter').fadeToggle(70, function () {
@@ -287,6 +274,4 @@ function DomFlashDecounter() {
     }
 }
 
-function DomRemoveDecounter() {
-    $('#decounter').remove();
-}
+function ScrollTo(hash) { location.hash = `#${hash}`; }

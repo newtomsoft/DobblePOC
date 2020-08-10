@@ -10,25 +10,18 @@ namespace DobblePOC
     {
         private const int GAME_ID_LENGTH = 4;
 
-        public Dictionary<string, GameManager> GamesManager { get; }
-
-        public ApplicationManager() => GamesManager = new Dictionary<string, GameManager>(); // appelé par l'injecteur de dépendance
+        public Dictionary<string, GameManager> GamesManager { get; } = new Dictionary<string, GameManager>();
 
         public void FreeGameManager(string gameId) => GamesManager.Remove(gameId);
 
+        public int JoinGameManager(string gameId) => GamesManager.ContainsKey(gameId) ? GamesManager[gameId].PicturesPerCard : 0;
+
         public string CreateGameManager(int picturesPerCard, List<string> picturesNames)
         {
+            FreeOldGameManager();
             string gameId = RandomId();
             GamesManager.Add(gameId, new GameManager(picturesPerCard, picturesNames));
             return gameId;
-        }
-
-        public int JoinGameManager(string gameId)
-        {
-            if (GamesManager.ContainsKey(gameId))
-                return GamesManager[gameId].PicturesPerCard;
-            else
-                return 0;
         }
 
         public TouchResponse Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch)
@@ -36,37 +29,38 @@ namespace DobblePOC
             lock (GamesManager[gameId].GameManagerLock)
             {
                 if (cardPlayed != GamesManager[gameId].GetCurrentCard(playerGuid))
-                    return new TouchResponse { Status = TouchStatus.CardPlayedDontExist };
+                    return new TouchResponse(TouchStatus.CardPlayedDontExist);
 
-                if (centerCard != GamesManager[gameId].GetCenterCard())
-                    return new TouchResponse { Status = TouchStatus.ToLate };
+                if (centerCard != GamesManager[gameId].CenterCard)
+                    return new TouchResponse(TouchStatus.ToLate);
 
                 if (centerCard.PicturesIds.Any(value => value == valueTouch))
                 {
-                    GamesManager[gameId].SetCenterCard(cardPlayed);
+                    GamesManager[gameId].CenterCard = cardPlayed;
                     if (GamesManager[gameId].IncreaseCardsCurrentIndex(playerGuid))
                     {
                         FreeGameManager(gameId);
-                        return new TouchResponse { Status = TouchStatus.TouchOkAndGameFinish };
+                        return new TouchResponse(TouchStatus.TouchOkAndGameFinish);
                     }
-                    centerCard = GamesManager[gameId].GetCenterCard();
-                    return new TouchResponse { Status = TouchStatus.TouchOk, CenterCard = centerCard };
+                    return new TouchResponse(TouchStatus.TouchOk, GamesManager[gameId].CenterCard);
 
                 }
-                return new TouchResponse { Status = TouchStatus.WrongValueTouch };
+                return new TouchResponse(TouchStatus.WrongValueTouch);
             }
         }
         private static string RandomId()
         {
             const string src = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
+            Random Rand = new Random();
             var sb = new StringBuilder();
-            Random Random = new Random();
             for (var i = 0; i < GAME_ID_LENGTH; i++)
-            {
-                var c = src[Random.Next(0, src.Length)];
-                sb.Append(c);
-            }
+                sb.Append(src[Rand.Next(0, src.Length)]);
             return sb.ToString();
+        }
+
+        private void FreeOldGameManager()
+        {
+            // Method intentionally left empty.
         }
     }
 }

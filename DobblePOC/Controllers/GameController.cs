@@ -22,9 +22,7 @@ namespace DobblePOC.Controllers
 
         [HttpGet]
         public IActionResult Index()
-        {
-            return View();
-        }
+            => View();
 
         [HttpPost]
         public IActionResult Create(int picturesPerCard)
@@ -47,7 +45,7 @@ namespace DobblePOC.Controllers
         public JsonResult JoinAsAdditionalDevice(string gameId)
         {
             int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
-            string additionalDevice = ApplicationManager.GamesManager[gameId].GetCenterCardsDevice();
+            string additionalDevice = ApplicationManager.GamesManager[gameId].GetNewDevice();
             return new JsonResult(new { additionalDevice, picturesPerCard });
         }
 
@@ -55,39 +53,36 @@ namespace DobblePOC.Controllers
         public JsonResult Start(string gameId)
         {
             ApplicationManager.GamesManager[gameId].DistributeCards();
-            var centerCard = ApplicationManager.GamesManager[gameId].GetCenterCard();
+            var centerCard = ApplicationManager.GamesManager[gameId].CenterCard;
             var picturesNames = ApplicationManager.GamesManager[gameId].PicturesNames;
             return new JsonResult(new { centerCard, picturesNames });
         }
 
         [HttpGet]
         public JsonResult GetCardsPlayer(string gameId, string playerGuid)
-        {
-            List<DobbleCard> cards = ApplicationManager.GamesManager[gameId].GetCards(playerGuid);
-            return new JsonResult(cards);
-        }
+            =>   new JsonResult(ApplicationManager.GamesManager[gameId].GetCards(playerGuid));
 
         [HttpGet]
         public JsonResult GetCenterCard(string gameId)
-        {
-            return new JsonResult(ApplicationManager.GamesManager[gameId].GetCenterCard());
-        }
+            => new JsonResult(ApplicationManager.GamesManager[gameId].CenterCard);
 
         [HttpPost]
         public JsonResult Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch)
-        {
-            var response = ApplicationManager.Touch(gameId, playerGuid, cardPlayed, valueTouch, centerCard, timeTakenToTouch);
-            return new JsonResult(response);
-        }
+            =>  new JsonResult(ApplicationManager.Touch(gameId, playerGuid, cardPlayed, valueTouch, centerCard, timeTakenToTouch));
 
-        private string AddNewPlayer(string gameId) => ApplicationManager.GamesManager[gameId].GetNewPlayer();
-
-        public List<string> GetRandomPicturesNames(int picturesNumber)
+        private List<string> GetRandomPicturesNames(int picturesNumber)
         {
             var fullNames = Directory.GetFiles(Path.Combine(WebHostEnvironment.WebRootPath, "pictures", "cardPictures")).OrderBy(_ => Guid.NewGuid()).Take(picturesNumber).ToList();
-            var filesNames = new List<string>();
-            fullNames.ForEach(fullName => filesNames.Add(Path.GetFileName(fullName)));
-            return filesNames;
+            //var filesNames = new List<string>();
+            //fullNames.ForEach(fullName => filesNames.Add(Path.GetFileName(fullName)));
+
+
+            return fullNames.Select(fullName => Path.GetFileName(fullName)).ToList();
+
+            //return filesNames;
         }
+
+        private string AddNewPlayer(string gameId)
+            => ApplicationManager.GamesManager[gameId].GetNewPlayer();
     }
 }

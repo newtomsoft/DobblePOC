@@ -47,7 +47,7 @@ async function ReceiveAdditionalDeviceInGame(additionalDevices) {
 
 async function ReceiveStartGame(centerCard, picturesNames) {
     if (ThisPlayerGuid !== undefined) {
-        Decounter = 3;
+        Decounter = 5;
         DomAddDecounter();
         DecounterLunchGame();
         IntervalDecounterLunchGame = setInterval(function () { DecounterLunchGame(); }, 1000);
@@ -62,7 +62,7 @@ async function ReceiveStartGame(centerCard, picturesNames) {
         GetCenterCard(centerCard);
         $('#startGame').hide();
         $('#startGameWait').hide();
-        PrepareCenterCard();
+        PrepareCard("centerCard");
         PreparePlayersInfos();
         ShowPlayersInfos();
     }

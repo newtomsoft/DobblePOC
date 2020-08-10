@@ -4,7 +4,13 @@ namespace DobblePOC
 {
     public struct TouchResponse
     {
-        public TouchStatus Status { get; set; }
-        public DobbleCard CenterCard { get; set; }
+        public TouchStatus Status { get; private set; }
+        public DobbleCard CenterCard { get; private set; }
+
+        public TouchResponse(TouchStatus status, DobbleCard centerCard = null)
+        {
+            Status = status;
+            CenterCard = centerCard;
+        }
     }
 }

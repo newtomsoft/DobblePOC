@@ -34,7 +34,7 @@
     </form>
     @* todo : appareil additionel à ajouter en dernier tel que codé *@
     @*<h3>Ajouter un appareil additionnel </h3>
-        <form id="joinGameAsAdditionalDeviceForm" action="javascript:void(0);">
+        <form id="joinDeviceGameForm" action="javascript:void(0);">
             <div class="form-group">
                 <label class="control-label">Identifiant de la partie</label>
                 <input id="gameIdJoinGameAsAdditionalDevice" class="form-control" type="text" value="" required />
@@ -60,6 +60,7 @@
 
 <section id="gameSection" style="display:none">
     <div id="gameIdInfo"></div>
+    <div id="gameIdWhatsapp"></div>
     <div id="pseudos"></div>
     <div id="startGame">
         <button id="startGameButton" class="btn-outline-primary">Commencer la partie !</button>
@@ -68,14 +69,12 @@
     <br />
     <div id="centerCard">
         <p>Pile centrale</p>
-        <div id="centerCardPicture">
-        </div>
+        <div id="centerCardPicture"></div>
     </div>
     <br />
     <div id="playerCard">
         <p>Votre pile</p>
-        <div id="playerCardPicture">
-        </div>
+        <div id="playerCardPicture"></div>
     </div>
     <div id="cardsNumber"></div>
 </section>

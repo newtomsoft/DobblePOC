@@ -15,7 +15,7 @@ namespace DobblePOC
 
         private bool GameInProgress { get; set; }
         private bool GameFinished { get; set; }
-        private DobbleCard CenterCard { get; set; }
+        public DobbleCard CenterCard { get; set; }
 
         public GameManager(int picturesNumber, List<string> picturesNames)
         {
@@ -25,8 +25,6 @@ namespace DobblePOC
             PicturesNames = picturesNames;
         }
 
-        public DobbleCard GetCenterCard() => CenterCard;
-        public void SetCenterCard(DobbleCard card) => CenterCard = card;
         public void SetGameFinished() => GameFinished = true;
 
         public List<DobbleCard> GetCards(string playerGuid) => PlayersGuids_Cards[playerGuid].Cards;
@@ -44,18 +42,14 @@ namespace DobblePOC
 
         public void DistributeCards()
         {
-            var cards = new DobbleCardsGame(PicturesPerCard).Cards;
             if (GameInProgress) return;
+            GameInProgress = true;
+            var cards = new DobbleCardsGame(PicturesPerCard).Cards;
             CenterCard = cards[0];
             int cardsNumberPerPlayer = (cards.Count - 1) / PlayersNumber;
-            int iCard = 1;
             var guids = PlayersGuids_Cards.Keys.ToList();
-            foreach (var guid in guids)
-            {
-                PlayersGuids_Cards[guid] = (0, cards.GetRange(iCard, cardsNumberPerPlayer));
-                iCard += cardsNumberPerPlayer;
-            }
-            GameInProgress = true;
+            for (int i = 0; i < guids.Count; i++)
+                PlayersGuids_Cards[guids[i]] = (0, cards.GetRange(1 + i * cardsNumberPerPlayer, cardsNumberPerPlayer));
         }
 
         public string GetNewPlayer()
@@ -68,13 +62,12 @@ namespace DobblePOC
             return playerGuid;
         }
 
-        public string GetCenterCardsDevice()
+        public string GetNewDevice()
         {
             if (GameInProgress || GameFinished)
                 return string.Empty;
 
-            var centerCardsDevice = Guid.NewGuid().ToString("N");
-            return centerCardsDevice;
+            return Guid.NewGuid().ToString("N");
         }
     }
 }

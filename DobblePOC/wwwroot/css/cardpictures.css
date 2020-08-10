@@ -1,15 +1,15 @@
 ﻿.img-picture {
     flex-shrink: 1;
-    height: 66px;
-    width: 66px;
+    height: 60px;
+    width: 60px;
     margin: 5px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-origin: content-box;
     background-position: center;
     background-color: white;
+    display: inline-block;
 }
 
-.cursor-default {
-    cursor: default !important;
+.cursor-click {
+    cursor: pointer;
 }

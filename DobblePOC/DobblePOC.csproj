@@ -15,4 +15,8 @@
     <ProjectReference Include="..\SignalR\SignalR.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\pictures\others\" />
+  </ItemGroup>
+
 </Project>

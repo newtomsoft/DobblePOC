@@ -25,37 +25,15 @@ a {
 }
 
 #decounter {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    background-position: center;
-    z-index: -10;
-    width: 69%;
-    height: 69%;
+    font-size: 95vh;
+    font-family: Calibri, 'Trebuchet MS', sans-serif, 'Gill Sans', 'Gill Sans MT';
+    font-weight: bold;
+/*    color: red;*/
     position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    max-width: 450px;
-    max-height: 450px;
 }
-
-.decounter3 {
-    background-image: url(/pictures/decounter/decounter3.svg);
-}
-
-.decounter2 {
-    background-image: url(/pictures/decounter/decounter2.svg);
-}
-
-.decounter1 {
-    background-image: url(/pictures/decounter/decounter1.svg);
-}
-
-.decounter0 {
-    background-image: url(/pictures/decounter/decounter0.svg);
-}
-
 
 html {
     font-size: 14px;
