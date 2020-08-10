@@ -17,6 +17,7 @@ function JoinGame() {
         type: 'POST',
         data: { gameId: GameId },
         success: function (data) { CallbackCreateOrJoinGame(data); },
+        error: function (err) { ShowError('errorJoinGame', err.responseText); },
     });
 }
 

@@ -29,6 +29,8 @@ namespace DobblePOC.Controllers
         {
             var picturesNames = GetRandomPicturesNames(picturesPerCard * picturesPerCard - picturesPerCard + 1);
             string gameId = ApplicationManager.CreateGameManager(picturesPerCard, picturesNames);
+            if (gameId == string.Empty)
+                return new BadRequestObjectResult(new { error = $"Le nombre d'images par carte {picturesPerCard} n'est pas valide !" });
             string playerGuid = AddNewPlayer(gameId);
             return new JsonResult(new { gameId, playerGuid, picturesPerCard });
         }
@@ -37,6 +39,8 @@ namespace DobblePOC.Controllers
         public IActionResult Join(string gameId)
         {
             int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
+            if (picturesPerCard == 0)
+                return new BadRequestObjectResult(new { error = $"La partie d'id {gameId} n'existe pas !" });
             string playerGuid = AddNewPlayer(gameId);
             return new JsonResult(new { gameId, playerGuid, picturesPerCard });
         }
@@ -45,30 +49,30 @@ namespace DobblePOC.Controllers
         public JsonResult JoinAsAdditionalDevice(string gameId)
         {
             int picturesPerCard = ApplicationManager.JoinGameManager(gameId);
-            string additionalDevice = ApplicationManager.GamesManager[gameId].GetNewDevice();
+            string additionalDevice = ApplicationManager.GameManagers[gameId].GetNewDevice();
             return new JsonResult(new { additionalDevice, picturesPerCard });
         }
 
         [HttpPost]
         public JsonResult Start(string gameId)
         {
-            ApplicationManager.GamesManager[gameId].DistributeCards();
-            var centerCard = ApplicationManager.GamesManager[gameId].CenterCard;
-            var picturesNames = ApplicationManager.GamesManager[gameId].PicturesNames;
+            ApplicationManager.GameManagers[gameId].DistributeCards();
+            var centerCard = ApplicationManager.GameManagers[gameId].CenterCard;
+            var picturesNames = ApplicationManager.GameManagers[gameId].PicturesNames;
             return new JsonResult(new { centerCard, picturesNames });
         }
 
         [HttpGet]
         public JsonResult GetCardsPlayer(string gameId, string playerGuid)
-            =>   new JsonResult(ApplicationManager.GamesManager[gameId].GetCards(playerGuid));
+            => new JsonResult(ApplicationManager.GameManagers[gameId].GetCards(playerGuid));
 
         [HttpGet]
         public JsonResult GetCenterCard(string gameId)
-            => new JsonResult(ApplicationManager.GamesManager[gameId].CenterCard);
+            => new JsonResult(ApplicationManager.GameManagers[gameId].CenterCard);
 
         [HttpPost]
         public JsonResult Touch(string gameId, string playerGuid, DobbleCard cardPlayed, int valueTouch, DobbleCard centerCard, TimeSpan timeTakenToTouch)
-            =>  new JsonResult(ApplicationManager.Touch(gameId, playerGuid, cardPlayed, valueTouch, centerCard, timeTakenToTouch));
+            => new JsonResult(ApplicationManager.Touch(gameId, playerGuid, cardPlayed, valueTouch, centerCard, timeTakenToTouch));
 
         private List<string> GetRandomPicturesNames(int picturesNumber)
         {
@@ -83,6 +87,6 @@ namespace DobblePOC.Controllers
         }
 
         private string AddNewPlayer(string gameId)
-            => ApplicationManager.GamesManager[gameId].GetNewPlayer();
+            => ApplicationManager.GameManagers[gameId].GetNewPlayer();
     }
 }

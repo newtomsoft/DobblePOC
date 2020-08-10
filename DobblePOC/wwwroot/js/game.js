@@ -275,3 +275,7 @@ function DomFlashDecounter() {
 }
 
 function ScrollTo(hash) { location.hash = `#${hash}`; }
+
+function ShowError(domId, errorText) {
+    $(`#${domId}`).html(`${errorText[0]} : ${errorText[1]}`);
+}
